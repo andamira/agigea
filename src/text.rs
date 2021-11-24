@@ -237,11 +237,12 @@ impl From<String> for AggFontError {
 }
 
 pub fn font(name: &str) -> Result<ft::Face, AggFontError> {
-    let prop = font_loader::system_fonts::FontPropertyBuilder::new().family(name).build();
-    let (font, _) = font_loader::system_fonts::get(&prop).ok_or("error loading font".to_string())?;
-    let lib = ft::Library::init()?;
-    let face = lib.new_memory_face(font, 0)?;
-    Ok(face)
+    //let prop = font_loader::system_fonts::FontPropertyBuilder::new().family(name).build();
+    //let (font, _) = font_loader::system_fonts::get(&prop).ok_or("error loading font".to_string())?;
+    //let lib = ft::Library::init()?;
+    //let face = lib.new_memory_face(font, 0)?;
+    //Ok(face)
+    Err(AggFontError::Io("??".to_string()))
 }
 
 
