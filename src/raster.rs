@@ -282,7 +282,7 @@ impl RasterizerScanline {
         let mut cover = area >> (POLY_SUBPIXEL_SHIFT*2 + 1 - aa_shift);
         cover = cover.abs();
         if self.filling_rule == FillingRule::EvenOdd {
-            cover *= aa_mask2;
+            cover &= aa_mask2;
             if cover > aa_scale {
                 cover = aa_scale2 - cover;
             }
