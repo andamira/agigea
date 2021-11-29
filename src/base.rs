@@ -3,6 +3,7 @@
 use crate::color::*;
 use crate::Pixel;
 use crate::Color;
+use crate::Source;
 use std::cmp::min;
 use std::cmp::max;
 
@@ -266,12 +267,12 @@ impl<T> RenderingBase<T> where T: Pixel {
         }
     */
     
-    fn blend_from<T: Source>(&mut self, other: &T) {
-        if self.width()!=other.width() || self.height() != other.height() {
+    pub fn blend_from<S: Pixel + Source>(&mut self, other: &S) {
+        if self.pixf.width()!=other.width() || self.pixf.height() != other.height() {
             panic!("wrong size");
-        
-        for x in 0..self.width() {
-            for y in 0..self.height() {
+        }
+        for x in 0..self.pixf.width() {
+            for y in 0..self.pixf.height() {
                 let c = other.get((x,y));
                 self.pixf.blend_pix((x,y),c,255);
             }
