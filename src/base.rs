@@ -154,5 +154,132 @@ impl<T> RenderingBase<T> where T: Pixel {
         let colors_win = &colors[off as usize .. (off+len) as usize];
         self.pixf.blend_color_hspan(x, y, len, colors_win, covers_win, cover);
     }
+    
+    /*
+    fn clip_rect_area(&self, dst: &mut (i64,i64,i64,i64), src: &mut (i64,i64,i64,i64), wsrc: i64, hsrc: i64) -> (i64,i64,i64,i64) {
+        let mut rc = (0,0,0,0);
+        let mut cb = self.limits();
+        
+        cb.2 += 1;
+        cb.3 += 1;
+        if src.0 < 0 {
+            dst.0 -= src.0;
+            src.0 = 0;
+        }
+        if src.1 < 0 {
+            dst.1 -= src.1;
+            src.1 = 0;
+        }
+        
+        if src.2 > wsrc {
+            src.2 = wsrc;
+        }
+        if src.3 > hsrc {
+            src.3 = hsrc;
+        }
+        
+        if dst.0 < cb.0 {
+            src.0 += (cb.0-dst.0);
+            dst.0 = cb.0;
+        }
+        
+        if dst.1 < cb.1 {
+            src.1 += (cb.1-dst.1);
+            dst.1 = cb.1;
+        }
+        
+        if dst.2 > cb.2 {
+            dst.2 = cb.2;
+        }
+        if dst.3 > cb.3 {
+            dst.3 = cb.3;
+        }
+        
+        rc.2 = dst.2-dst.0;
+        rc.3 = dst.3-dst.0;
+        if rc.2 > (src.2-src.0) {
+            rc.2 = src.2-src.0;
+        }
+        if rc.3 > (src.3-src.1) {
+            rc.3 = src.3-src.1;
+        }
+        
+        rc
+    }
+    
+    
+    pub fn blend_from<T: Pixel>(src: &T, rect_src: Option<(i64,i64,i64,i64), offset: Option<(i64,i64)>, cover: &str) {
+        
+        let rsrc = rect_src.unwrap_or((0,0,src.width(), src.height()));
+        let (dx, dy) = offset.unwrap_or((0,0));
+        let rdst = (rsrc.0 + dx, rsrc.1 + dy, rsrc.2 + dx, rsrc.3 + dy);
+        
+        let rc = clip_rect_area(rdst, rsrc, src.width(), src.height());
+
+        if rc.2 > 0 {
+            let mut incy = 1;
+            if rdst.1 > rsrc.1 {
+                rsrc.1 += rc.3-1;
+                rdst.1 += rc.3-1;
+                incy = -1;
+            }
+            
+            while rc.3 > 0 {
+                
+                let rw = src.row(rc.1);
+                
+                
+                {
+                    typename SrcPixelFormatRenderer::row_data rw = src.row(rsrc.y1);
+                    if(rw.ptr)
+                    {
+                        int x1src = rsrc.x1;
+                        int x1dst = rdst.x1;
+                        int len   = rc.x2;
+                        if(rw.x1 > x1src)
+                        {
+                            x1dst += rw.x1 - x1src;
+                            len   -= rw.x1 - x1src;
+                            x1src  = rw.x1;
+                        }
+                        if(len > 0)
+                        {
+                            if(x1src + len-1 > rw.x2)
+                            {
+                                len -= x1src + len - rw.x2 - 1;
+                            }
+                            if(len > 0)
+                            {
+                                m_ren->blend_from(src,
+                                                  x1dst, rdst.y1,
+                                                  x1src, rsrc.y1,
+                                                  len,
+                                                  cover);
+                            }
+                        }
+                    }
+                    rdst.y1 += incy;
+                    rsrc.y1 += incy;
+                    --rc.y2;
+                }
+            }
+        }
+    */
+    
+    fn blend_from<T: Source>(&mut self, other: &T) {
+        if self.width()!=other.width() || self.height() != other.height() {
+            panic!("wrong size");
+        
+        for x in 0..self.width() {
+            for y in 0..self.height() {
+                let c = other.get((x,y));
+                self.pixf.blend_pix((x,y),c,255);
+            }
+        }
+    }
+        
+        
+    
+    
 }
 
