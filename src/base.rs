@@ -267,14 +267,17 @@ impl<T> RenderingBase<T> where T: Pixel {
         }
     */
     
-    pub fn blend_from<S: Pixel + Source>(&mut self, other: &S) {
+    pub fn blend_from<S: Pixel + Source>(&mut self, other: &S, opacity: f64) {
         if self.pixf.width()!=other.width() || self.pixf.height() != other.height() {
             panic!("wrong size");
         }
+        
+        
+        
         for x in 0..self.pixf.width() {
             for y in 0..self.pixf.height() {
                 let c = other.get((x,y));
-                self.pixf.blend_pix((x,y),c,255);
+                self.pixf.blend_pix((x,y),c,(opacity*255.0) as u64);
             }
         }
     }
