@@ -102,7 +102,14 @@ impl RasterizerScanline {
             }
         }
     }
-
+    /// Set Filling Rule
+    pub fn set_filling_rule(&mut self, filling_rule: FillingRule) {
+        self.filling_rule = filling_rule;
+    }
+    
+    
+    
+    
     /// Rewind the Scanline
     ///
     /// Close active polygon, sort the Rasterizer Cells, set the
