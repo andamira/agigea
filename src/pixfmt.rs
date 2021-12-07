@@ -257,8 +257,8 @@ impl Pixel for Pixfmt<Rgba8> {
         }
     }
     
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),std::io::Error> {
-        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::RGBA(8))
+    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),image::ImageError> {
+        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::ColorType::Rgba8)
     }
 
 }
@@ -302,8 +302,8 @@ impl Pixel for Pixfmt<Rgb8> {
         }
     }
     
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),std::io::Error> {
-        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::RGB(8))
+    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),image::ImageError> {
+        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::ColorType::Rgb8)
     }
 
 }
@@ -382,8 +382,8 @@ impl Pixel for Pixfmt<Rgba8pre> {
             chunk.copy_from_slice(&c);
         }
     }
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),std::io::Error> {
-        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::RGBA(8))
+    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),image::ImageError> {
+        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::ColorType::Rgba8)
     }
 }
 
@@ -494,8 +494,8 @@ impl Pixel for Pixfmt<Rgba32> {
         }
     }
     
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),std::io::Error> {
-        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::RGBA(8))
+    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),image::ImageError> {
+        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::ColorType::Rgba8)
     }
 
 }
@@ -536,8 +536,8 @@ impl Pixel for Pixfmt<Gray8> {
         }
     }
     
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),std::io::Error> {
-        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::Gray(8))
+    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),image::ImageError> {
+        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::ColorType::L8)
     }
     
 }
@@ -582,8 +582,8 @@ impl Pixel for PixfmtAlphaBlend<'_,Pixfmt<Rgb8>,Gray8> {
     fn as_bytes(&self) -> &[u8] {
         self.ren.pixf.as_bytes()
     }
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),std::io::Error> {
-        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::RGBA(8))
+    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),image::ImageError> {
+        crate::ppm::write_file(self.as_bytes(), self.width(), self.height(), filename, image::ColorType::Rgba8)
     }
     fn fill<C: Color>(&mut self, color: C) {
         let (w,h) = (self.width(), self.height());

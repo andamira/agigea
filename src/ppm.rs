@@ -10,7 +10,7 @@ pub fn read_file<P: AsRef<Path>>(filename: P) -> Result<(Vec<u8>,usize,usize),im
     let buf = img.into_raw();
     Ok((buf, w as usize, h as usize))
 }
-pub fn write_file<P: AsRef<Path>>(buf: &[u8], width: usize, height: usize, filename: P, colortype: image::ColorType) -> Result<(), std::io::Error> {
+pub fn write_file<P: AsRef<Path>>(buf: &[u8], width: usize, height: usize, filename: P, colortype: image::ColorType) -> Result<(), image::ImageError> {
     image::save_buffer(filename, buf, width as u32, height as u32, colortype)
 }
 

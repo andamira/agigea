@@ -278,7 +278,7 @@ impl<'a,T> RenderingScanlineBinSolid<'a,T> where T: Pixel {
     pub fn as_bytes(&self) -> &[u8] {
         self.base.as_bytes()
     }
-    pub fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), std::io::Error> {
+    pub fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         self.base.to_file(filename)
     }
 
@@ -297,7 +297,7 @@ impl<'a,T> RenderingScanlineAASolid<'a,T> where T: Pixel {
     pub fn as_bytes(&self) -> &[u8] {
         self.base.as_bytes()
     }
-    pub fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), std::io::Error> {
+    pub fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         self.base.to_file(filename)
     }
 }
