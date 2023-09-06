@@ -142,9 +142,9 @@ fn rasterizers2_pre() {
         let y = (h / 4 + 50) as f64;
         let spiral = Spiral::new(x, y, r1, r2, step, start_angle);
 
-        let mut ren_prim = agg::RendererPrimatives::with_base(&mut ren_base);
+        let mut ren_prim = agg::RendererPrimitives::with_base(&mut ren_base);
         ren_prim.line_color(agg::Rgba8::new(102, 77, 26, 255));
-        let mut ras_al = agg::RasterizerOutline::with_primative(&mut ren_prim);
+        let mut ras_al = agg::RasterizerOutline::with_primitive(&mut ren_prim);
         let trans = Roundoff::new(spiral);
         ras_al.add_path(&trans);
     }
@@ -155,9 +155,9 @@ fn rasterizers2_pre() {
         eprintln!("DDA SPIRAL: {} {} h {} h/4 {}", x, y, height, height/4.0);
         let spiral = Spiral::new(x, y, r1, r2, step, start_angle);
 
-        let mut ren_prim = agg::RendererPrimatives::with_base(&mut ren_base);
+        let mut ren_prim = agg::RendererPrimitives::with_base(&mut ren_base);
         ren_prim.line_color(agg::Rgba8::new(102, 77, 26, 255));
-        let mut ras_al = agg::RasterizerOutline::with_primative(&mut ren_prim);
+        let mut ras_al = agg::RasterizerOutline::with_primitive(&mut ren_prim);
         ras_al.add_path(&spiral);
     }
     // Anti-Aliased Outline

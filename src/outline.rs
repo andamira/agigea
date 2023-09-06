@@ -1,12 +1,12 @@
 //! Rendering Outline, not Anti-Aliased
 //!
 //!     use agg::{Pixfmt,Rgb8,Rgba8};
-//!     use agg::{RendererPrimatives,RasterizerOutline};
+//!     use agg::{RendererPrimitives,RasterizerOutline};
 //!     let pix = Pixfmt::<Rgb8>::new(100,100);
 //!     let mut ren_base = agg::RenderingBase::new(pix);
 //!     ren_base.clear( Rgba8::new(255, 255, 255, 255) );
 //!
-//!     let mut ren = RendererPrimatives::with_base(&mut ren_base);
+//!     let mut ren = RendererPrimitives::with_base(&mut ren_base);
 //!     ren.line_color(agg::Rgba8::new(0,0,0,255));
 //!
 //!     let mut path = agg::Path::new();
@@ -14,13 +14,13 @@
 //!     path.line_to(50.0, 90.0);
 //!     path.line_to(90.0, 10.0);
 //!
-//!     let mut ras = RasterizerOutline::with_primative(&mut ren);
+//!     let mut ras = RasterizerOutline::with_primitive(&mut ren);
 //!     ras.add_path(&path);
-//!     ren_base.to_file("primative.png").unwrap();
+//!     ren_base.to_file("primitive.png").unwrap();
 //!
 //! The above code produces:
 //!
-//! ![Output](https://raw.githubusercontent.com/savage13/agg/master/images/primative.png)
+//! ![Output](https://raw.githubusercontent.com/savage13/agg/master/images/primitive.png)
 
 use crate::base::RenderingBase;
 use crate::color::Rgba8;
@@ -59,7 +59,7 @@ pub struct RasterizerOutline<'a, T>
 where
     T: Pixel,
 {
-    ren: &'a mut RendererPrimatives<'a, T>,
+    ren: &'a mut RendererPrimitives<'a, T>,
     start_x: Subpixel,
     start_y: Subpixel,
     vertices: usize,
@@ -69,7 +69,7 @@ where
     T: Pixel,
 {
     /// Create a new RasterizerOutline with a Renderer
-    pub fn with_primative(ren: &'a mut RendererPrimatives<'a, T>) -> Self {
+    pub fn with_primitive(ren: &'a mut RendererPrimitives<'a, T>) -> Self {
         Self { start_x: Subpixel::from(0), start_y: Subpixel::from(0), vertices: 0, ren }
     }
     /// Add a path and render
@@ -116,9 +116,9 @@ where
     }
 }
 
-/// Primative Renderer
+/// Primitive Renderer
 #[derive(Debug)]
-pub struct RendererPrimatives<'a, T>
+pub struct RendererPrimitives<'a, T>
 where
     T: 'a,
 {
@@ -129,11 +129,11 @@ where
     y: Subpixel,
 }
 
-impl<'a, T> RendererPrimatives<'a, T>
+impl<'a, T> RendererPrimitives<'a, T>
 where
     T: Pixel,
 {
-    /// Create new Primative Rendering with a [`RenderingBase`](../base/struct.RenderingBase.html)
+    /// Create new Primitive Rendering with a [`RenderingBase`](../base/struct.RenderingBase.html)
     pub fn with_base(base: &'a mut RenderingBase<T>) -> Self {
         let fill_color = Rgba8::new(0, 0, 0, 255);
         let line_color = Rgba8::new(0, 0, 0, 255);

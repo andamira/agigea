@@ -1,6 +1,6 @@
 use crate::render::LineInterpolator;
 use crate::render::LineInterpolatorImage;
-//use crate::render::RendererPrimatives;
+//use crate::render::RendererPrimitives;
 
 use crate::DistanceInterpolator;
 use crate::RenderOutline;
