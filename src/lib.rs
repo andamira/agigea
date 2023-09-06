@@ -72,7 +72,7 @@
 //! # Primative Renderer
 //!
 //! Render for primative shapes: lines, rectangles, and ellipses; filled or
-//!    outlined. 
+//!    outlined.
 //!
 //!        use agg::{Pixfmt,Rgb8,Rgba8,RenderingBase,DrawOutline};
 //!        use agg::{RendererPrimatives,RasterizerOutline};
@@ -98,7 +98,7 @@
 //!
 //!   **Note:** Functions here are a somewhat low level interface and probably not what
 //!     you want to use.
-//! 
+//!
 //!   Functions to set pixel color through [`Pixfmt`] are [`clear`], [`set`], [`copy_pixel`],
 //!     [`copy_hline`], [`copy_vline`], [`fill`]
 //!
@@ -129,70 +129,68 @@ use std::fmt::Debug;
 #[doc(hidden)]
 pub use freetype as ft;
 
-pub mod paths;
-pub mod stroke;
-pub mod transform;
-pub mod color;
-pub mod pixfmt;
+pub mod alphamask;
 pub mod base;
 pub mod clip;
-pub mod raster;
-pub mod ppm;
-pub mod alphamask;
-pub mod render;
-pub mod text;
+pub mod color;
+pub mod line_interp;
 pub mod outline;
 pub mod outline_aa;
-pub mod line_interp;
+pub mod paths;
+pub mod pixfmt;
+pub mod ppm;
+pub mod raster;
+pub mod render;
+pub mod stroke;
+pub mod text;
+pub mod transform;
 
-pub mod math;
-pub(crate) mod scan;
 pub(crate) mod buffer;
 pub(crate) mod cell;
-
+pub mod math;
+pub(crate) mod scan;
 
 pub mod gallery;
 
 #[doc(hidden)]
-pub use crate::paths::*;
-#[doc(hidden)]
-pub use crate::stroke::*;
-#[doc(hidden)]
-pub use crate::transform::*;
-#[doc(hidden)]
-pub use crate::color::*;
-#[doc(hidden)]
-pub use crate::pixfmt::*;
+pub use crate::alphamask::*;
 #[doc(hidden)]
 pub use crate::base::*;
 #[doc(hidden)]
 pub use crate::clip::*;
 #[doc(hidden)]
-pub use crate::raster::*;
-#[doc(hidden)]
-pub use crate::alphamask::*;
-#[doc(hidden)]
-pub use crate::render::*;
-#[doc(hidden)]
-pub use crate::text::*;
+pub use crate::color::*;
 #[doc(hidden)]
 pub use crate::line_interp::*;
 #[doc(hidden)]
 pub use crate::outline::*;
 #[doc(hidden)]
 pub use crate::outline_aa::*;
+#[doc(hidden)]
+pub use crate::paths::*;
+#[doc(hidden)]
+pub use crate::pixfmt::*;
+#[doc(hidden)]
+pub use crate::raster::*;
+#[doc(hidden)]
+pub use crate::render::*;
+#[doc(hidden)]
+pub use crate::stroke::*;
+#[doc(hidden)]
+pub use crate::text::*;
+#[doc(hidden)]
+pub use crate::transform::*;
 
-const POLY_SUBPIXEL_SHIFT : i64 = 8;
-const POLY_SUBPIXEL_SCALE : i64 = 1<<POLY_SUBPIXEL_SHIFT;
-const POLY_SUBPIXEL_MASK  : i64 = POLY_SUBPIXEL_SCALE - 1;
-const POLY_MR_SUBPIXEL_SHIFT : i64 = 4;
-const MAX_HALF_WIDTH : usize = 64;
-
+const POLY_SUBPIXEL_SHIFT: i64 = 8;
+const POLY_SUBPIXEL_SCALE: i64 = 1 << POLY_SUBPIXEL_SHIFT;
+const POLY_SUBPIXEL_MASK: i64 = POLY_SUBPIXEL_SCALE - 1;
+const POLY_MR_SUBPIXEL_SHIFT: i64 = 4;
+const MAX_HALF_WIDTH: usize = 64;
 
 /// Source of vertex points
 pub trait VertexSource {
     /// Rewind the vertex source (unused)
-    fn rewind(&self) { }
+    fn rewind(&self) {}
     /// Get values from the source
     ///
     /// This could be turned into an iterator
@@ -203,7 +201,7 @@ pub trait VertexSource {
 pub trait Color: Debug + Copy {
     /// Get red value [0,1] as f64
     fn red(&self) -> f64;
-    /// Get green value [0,1] as f64 
+    /// Get green value [0,1] as f64
     fn green(&self) -> f64;
     /// Get blue value [0,1] as f64
     fn blue(&self) -> f64;
@@ -218,9 +216,13 @@ pub trait Color: Debug + Copy {
     /// Get alpha value [0,255] as u8
     fn alpha8(&self) -> u8;
     /// Return if the color is completely transparent, alpha = 0.0
-    fn is_transparent(&self) -> bool { self.alpha() == 0.0 }
+    fn is_transparent(&self) -> bool {
+        self.alpha() == 0.0
+    }
     /// Return if the color is completely opaque, alpha = 1.0
-    fn is_opaque(&self) -> bool { self.alpha() >= 1.0 }
+    fn is_opaque(&self) -> bool {
+        self.alpha() >= 1.0
+    }
     /// Return if the color has been premultiplied
     fn is_premultiplied(&self) -> bool;
 }
@@ -231,7 +233,7 @@ pub trait Render {
     /// Set the Color of the Renderer
     fn color<C: Color>(&mut self, color: C);
     /// Prepare the Renderer
-    fn prepare(&self) { }
+    fn prepare(&self) {}
 }
 /*
 /// Rasterize lines, path, and other things to scanlines
@@ -246,7 +248,7 @@ pub trait Rasterize {
     fn max_x(&self) -> i64;
     /// Resets the rasterizer, clearing content
     fn reset(&mut self);
-    /// Rasterize a path 
+    /// Rasterize a path
     fn add_path<VS: VertexSource>(&mut self, path: &VS);
 }
 */
@@ -261,7 +263,7 @@ pub trait Pixel {
     fn cover_mask() -> u64;
     fn bpp() -> usize;
     fn as_bytes(&self) -> &[u8];
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),image::ImageError>;
+    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError>;
     fn width(&self) -> usize;
     fn height(&self) -> usize;
     fn set<C: Color>(&mut self, id: (usize, usize), c: C);
@@ -278,8 +280,8 @@ pub trait Pixel {
     ///
     /// [`is_opaque`]: ../trait.Color.html#method.is_opaque
     /// [`is_transparent`]: ../trait.Color.html#method.is_transparent
-    fn copy_or_blend_pix<C: Color>(&mut self, id: (usize,usize), color: C) {
-        if ! color.is_transparent() {
+    fn copy_or_blend_pix<C: Color>(&mut self, id: (usize, usize), color: C) {
+        if !color.is_transparent() {
             if color.is_opaque() {
                 self.set(id, color);
             } else {
@@ -324,8 +326,8 @@ pub trait Pixel {
     /// [`is_transparent`]: ../trait.Color.html#method.is_transparent
     /// [`cover_mask`]: ../trait.Pixel.html#method.cover_mask
     ///
-    fn copy_or_blend_pix_with_cover<C: Color>(&mut self, id: (usize,usize), color: C, cover: u64) {
-        if ! color.is_transparent() {
+    fn copy_or_blend_pix_with_cover<C: Color>(&mut self, id: (usize, usize), color: C, cover: u64) {
+        if !color.is_transparent() {
             if color.is_opaque() && cover == Self::cover_mask() {
                 self.set(id, color);
             } else {
@@ -340,12 +342,12 @@ pub trait Pixel {
         if color.is_transparent() {
             return;
         }
-        let (x,y,len) = (x as usize, y as usize, len as usize);
+        let (x, y, len) = (x as usize, y as usize, len as usize);
         if color.is_opaque() && cover == Self::cover_mask() {
-            self.setn((x,y), len, color);
+            self.setn((x, y), len, color);
         } else {
-            for i in 0 .. len {
-                self.blend_pix((x+i,y),color,cover);
+            for i in 0..len {
+                self.blend_pix((x + i, y), color, cover);
             }
         }
     }
@@ -354,7 +356,7 @@ pub trait Pixel {
     fn blend_solid_hspan<C: Color>(&mut self, x: i64, y: i64, len: i64, color: C, covers: &[u64]) {
         assert_eq!(len as usize, covers.len());
         for (i, &cover) in covers.iter().enumerate() {
-            self.blend_hline(x+i as i64,y,1,color,cover);
+            self.blend_hline(x + i as i64, y, 1, color, cover);
         }
     }
     /// Copy or Blend a single `color` from (`x`,`y`) to (`x`,`y+len-1`)
@@ -364,45 +366,52 @@ pub trait Pixel {
         if c.is_transparent() {
             return;
         }
-        let (x,y,len) = (x as usize, y as usize, len as usize);
+        let (x, y, len) = (x as usize, y as usize, len as usize);
         if c.is_opaque() && cover == Self::cover_mask() {
-            for i in 0 .. len {
-                self.set((x,y+i),c);
+            for i in 0..len {
+                self.set((x, y + i), c);
             }
         } else {
-            for i in 0 .. len {
-                self.blend_pix((x,y+i),c,cover);
+            for i in 0..len {
+                self.blend_pix((x, y + i), c, cover);
             }
         }
     }
     /// Blend a single `color` from (`x`,`y`) to (`x`,`y+len-1`) with collection
     ///   of `covers`
-    fn blend_solid_vspan<C: Color>(&mut self, x: i64, y: i64, len: i64, c: C, covers: &[u64]){
+    fn blend_solid_vspan<C: Color>(&mut self, x: i64, y: i64, len: i64, c: C, covers: &[u64]) {
         assert_eq!(len as usize, covers.len());
         for (i, &cover) in covers.iter().enumerate() {
-            self.blend_vline(x,y+i as i64,1,c,cover);
+            self.blend_vline(x, y + i as i64, 1, c, cover);
         }
     }
     /// Blend a collection of `colors` from (`x`,`y`) to (`x+len-1`,`y`) with
     ///   either a collection of `covers` or a single `cover`
     ///
     /// A collection of `covers` takes precedance over a single `cover`
-    fn blend_color_hspan<C: Color>(&mut self, x: i64, y: i64, len: i64, colors: &[C], covers: &[u64], cover: u64) {
-
+    fn blend_color_hspan<C: Color>(
+        &mut self,
+        x: i64,
+        y: i64,
+        len: i64,
+        colors: &[C],
+        covers: &[u64],
+        cover: u64,
+    ) {
         assert_eq!(len as usize, colors.len());
-        let (x,y) = (x as usize, y as usize);
-        if ! covers.is_empty() {
+        let (x, y) = (x as usize, y as usize);
+        if !covers.is_empty() {
             assert_eq!(colors.len(), covers.len());
-            for (i,(&color,&cover)) in colors.iter().zip(covers.iter()).enumerate() {
-                self.copy_or_blend_pix_with_cover((x+i,y), color, cover);
+            for (i, (&color, &cover)) in colors.iter().zip(covers.iter()).enumerate() {
+                self.copy_or_blend_pix_with_cover((x + i, y), color, cover);
             }
         } else if cover == 255 {
-            for (i,&color) in colors.iter().enumerate() {
-                self.copy_or_blend_pix((x+i,y), color);
+            for (i, &color) in colors.iter().enumerate() {
+                self.copy_or_blend_pix((x + i, y), color);
             }
         } else {
-            for (i,&color) in colors.iter().enumerate() {
-                self.copy_or_blend_pix_with_cover((x+i,y), color, cover);
+            for (i, &color) in colors.iter().enumerate() {
+                self.copy_or_blend_pix_with_cover((x + i, y), color, cover);
             }
         }
     }
@@ -410,27 +419,33 @@ pub trait Pixel {
     ///   either a collection of `covers` or a single `cover`
     ///
     /// A collection of `covers` takes precedance over a single `cover`
-    fn blend_color_vspan<C: Color>(&mut self, x: i64, y: i64, len: i64, colors: &[C], covers: &[u64], cover: u64) {
+    fn blend_color_vspan<C: Color>(
+        &mut self,
+        x: i64,
+        y: i64,
+        len: i64,
+        colors: &[C],
+        covers: &[u64],
+        cover: u64,
+    ) {
         assert_eq!(len as usize, colors.len());
-        let (x,y) = (x as usize, y as usize);
-        if ! covers.is_empty() {
+        let (x, y) = (x as usize, y as usize);
+        if !covers.is_empty() {
             assert_eq!(colors.len(), covers.len());
-            for (i,(&color,&cover)) in colors.iter().zip(covers.iter()).enumerate() {
-                self.copy_or_blend_pix_with_cover((x,y+i), color, cover);
+            for (i, (&color, &cover)) in colors.iter().zip(covers.iter()).enumerate() {
+                self.copy_or_blend_pix_with_cover((x, y + i), color, cover);
             }
         } else if cover == 255 {
-            for (i,&color) in colors.iter().enumerate() {
-                self.copy_or_blend_pix((x,y+i), color);
+            for (i, &color) in colors.iter().enumerate() {
+                self.copy_or_blend_pix((x, y + i), color);
             }
         } else {
-            for (i,&color) in colors.iter().enumerate() {
-                self.copy_or_blend_pix_with_cover((x,y+i), color, cover);
+            for (i, &color) in colors.iter().enumerate() {
+                self.copy_or_blend_pix_with_cover((x, y + i), color, cover);
             }
         }
     }
 }
-
-
 
 pub(crate) trait LineInterp {
     fn init(&mut self);
@@ -454,10 +469,11 @@ pub trait DrawOutline {
     fn line1(&mut self, lp: &LineParameters, sx: i64, sy: i64);
     fn line2(&mut self, lp: &LineParameters, ex: i64, ey: i64);
     fn line3(&mut self, lp: &LineParameters, sx: i64, sy: i64, ex: i64, ey: i64);
-    fn semidot<F>(&mut self, cmp: F, xc1: i64, yc1: i64, xc2: i64, yc2: i64) where F: Fn(i64) -> bool;
+    fn semidot<F>(&mut self, cmp: F, xc1: i64, yc1: i64, xc2: i64, yc2: i64)
+    where
+        F: Fn(i64) -> bool;
     fn pie(&mut self, xc: i64, y: i64, x1: i64, y1: i64, x2: i64, y2: i64);
 }
-
 
 pub(crate) trait DistanceInterpolator {
     fn dist(&self) -> i64;
@@ -466,5 +482,3 @@ pub(crate) trait DistanceInterpolator {
     fn dec_x(&mut self, dy: i64);
     fn dec_y(&mut self, dx: i64);
 }
-
-

@@ -1,12 +1,11 @@
 //! Rendering Base
 
 use crate::color::*;
-use crate::Pixel;
 use crate::Color;
+use crate::Pixel;
 use crate::Source;
-use std::cmp::min;
 use std::cmp::max;
-
+use std::cmp::min;
 
 /// Rendering Base
 ///
@@ -16,7 +15,10 @@ pub struct RenderingBase<T> {
     pub pixf: T,
 }
 
-impl<T> RenderingBase<T> where T: Pixel {
+impl<T> RenderingBase<T>
+where
+    T: Pixel,
+{
     /// Create new Rendering Base from Pixel Format
     pub fn new(pixf: T) -> RenderingBase<T> {
         RenderingBase { pixf }
@@ -24,7 +26,7 @@ impl<T> RenderingBase<T> where T: Pixel {
     pub fn as_bytes(&self) -> &[u8] {
         self.pixf.as_bytes()
     }
-    pub fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(),image::ImageError> {
+    pub fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         self.pixf.to_file(filename)
     }
     /// Set Image to a single color
@@ -32,15 +34,15 @@ impl<T> RenderingBase<T> where T: Pixel {
         self.pixf.fill(color);
     }
     /// Get Image size
-    pub fn limits(&self) -> (i64,i64,i64,i64) {
+    pub fn limits(&self) -> (i64, i64, i64, i64) {
         let w = self.pixf.width() as i64;
         let h = self.pixf.height() as i64;
-        (0, w-1, 0, h-1)
+        (0, w - 1, 0, h - 1)
     }
     /// Blend a color along y-row from x1 to x2
     pub fn blend_hline<C: Color>(&mut self, x1: i64, y: i64, x2: i64, c: C, cover: u64) {
-        let (xmin,xmax,ymin,ymax) = self.limits();
-        let (x1,x2) = if x2 > x1 { (x1,x2) } else { (x2,x1) };
+        let (xmin, xmax, ymin, ymax) = self.limits();
+        let (x1, x2) = if x2 > x1 { (x1, x2) } else { (x2, x1) };
         if y > ymax || y < ymin || x1 > xmax || x2 < xmin {
             return;
         }
@@ -50,11 +52,11 @@ impl<T> RenderingBase<T> where T: Pixel {
     }
     /// Blend a color from (x,y) with variable covers
     pub fn blend_solid_hspan<C: Color>(&mut self, x: i64, y: i64, len: i64, c: C, covers: &[u64]) {
-        let (xmin,xmax,ymin,ymax) = self.limits();
+        let (xmin, xmax, ymin, ymax) = self.limits();
         if y > ymax || y < ymin {
             return;
         }
-        let (mut x, mut len, mut off) = (x,len, 0);
+        let (mut x, mut len, mut off) = (x, len, 0);
         if x < xmin {
             len -= xmin - x;
             if len <= 0 {
@@ -69,17 +71,17 @@ impl<T> RenderingBase<T> where T: Pixel {
                 return;
             }
         }
-        let covers_win = &covers[off as usize .. (off+len) as usize];
-        assert!(len as usize <= covers[off as usize ..].len());
+        let covers_win = &covers[off as usize..(off + len) as usize];
+        assert!(len as usize <= covers[off as usize..].len());
         self.pixf.blend_solid_hspan(x, y, len, c, covers_win);
     }
     /// Blend a color from (x,y) with variable covers
     pub fn blend_solid_vspan<C: Color>(&mut self, x: i64, y: i64, len: i64, c: C, covers: &[u64]) {
-        let (xmin,xmax,ymin,ymax) = self.limits();
+        let (xmin, xmax, ymin, ymax) = self.limits();
         if x > xmax || x < xmin {
             return;
         }
-        let (mut y, mut len, mut off) = (y,len, 0);
+        let (mut y, mut len, mut off) = (y, len, 0);
         if y < ymin {
             len -= ymin - y;
             if len <= 0 {
@@ -94,17 +96,25 @@ impl<T> RenderingBase<T> where T: Pixel {
                 return;
             }
         }
-        let covers_win = &covers[off as usize .. (off+len) as usize];
-        assert!(len as usize <= covers[off as usize ..].len());
+        let covers_win = &covers[off as usize..(off + len) as usize];
+        assert!(len as usize <= covers[off as usize..].len());
         self.pixf.blend_solid_vspan(x, y, len, c, covers_win);
     }
 
-    pub fn blend_color_vspan<C: Color>(&mut self, x: i64, y: i64, len: i64, colors: &[C], covers: &[u64], cover: u64) {
-        let (xmin,xmax,ymin,ymax) = self.limits();
+    pub fn blend_color_vspan<C: Color>(
+        &mut self,
+        x: i64,
+        y: i64,
+        len: i64,
+        colors: &[C],
+        covers: &[u64],
+        cover: u64,
+    ) {
+        let (xmin, xmax, ymin, ymax) = self.limits();
         if x > xmax || x < xmin {
             return;
         }
-        let (mut y, mut len, mut off) = (y,len, 0);
+        let (mut y, mut len, mut off) = (y, len, 0);
         if y < ymin {
             len -= ymin - y;
             if len <= 0 {
@@ -122,17 +132,25 @@ impl<T> RenderingBase<T> where T: Pixel {
         let covers_win = if covers.is_empty() {
             &[]
         } else {
-            &covers[off as usize .. (off+len) as usize]
+            &covers[off as usize..(off + len) as usize]
         };
-        let colors_win = &colors[off as usize .. (off+len) as usize];
+        let colors_win = &colors[off as usize..(off + len) as usize];
         self.pixf.blend_color_vspan(x, y, len, colors_win, covers_win, cover);
     }
-    pub fn blend_color_hspan<C: Color>(&mut self, x: i64, y: i64, len: i64, colors: &[C], covers: &[u64], cover: u64) {
-        let (xmin,xmax,ymin,ymax) = self.limits();
+    pub fn blend_color_hspan<C: Color>(
+        &mut self,
+        x: i64,
+        y: i64,
+        len: i64,
+        colors: &[C],
+        covers: &[u64],
+        cover: u64,
+    ) {
+        let (xmin, xmax, ymin, ymax) = self.limits();
         if y > ymax || y < ymin {
             return;
         }
-        let (mut x, mut len, mut off) = (x,len, 0);
+        let (mut x, mut len, mut off) = (x, len, 0);
         if x < xmin {
             len -= xmin - x;
             if len <= 0 {
@@ -150,31 +168,22 @@ impl<T> RenderingBase<T> where T: Pixel {
         let covers_win = if covers.is_empty() {
             &[]
         } else {
-            &covers[off as usize .. (off+len) as usize]
+            &covers[off as usize..(off + len) as usize]
         };
-        let colors_win = &colors[off as usize .. (off+len) as usize];
+        let colors_win = &colors[off as usize..(off + len) as usize];
         self.pixf.blend_color_hspan(x, y, len, colors_win, covers_win, cover);
     }
-    
-    
-    
+
     pub fn blend_from<S: Pixel + Source>(&mut self, other: &S, opacity: f64) {
-        if self.pixf.width()!=other.width() || self.pixf.height() != other.height() {
+        if self.pixf.width() != other.width() || self.pixf.height() != other.height() {
             panic!("wrong size");
         }
-        
-        
-        
+
         for x in 0..self.pixf.width() {
             for y in 0..self.pixf.height() {
-                let c = other.get((x,y));
-                self.pixf.blend_pix((x,y),c,(opacity*255.0) as u64);
+                let c = other.get((x, y));
+                self.pixf.blend_pix((x, y), c, (opacity * 255.0) as u64);
             }
         }
     }
-        
-        
-    
-    
 }
-
