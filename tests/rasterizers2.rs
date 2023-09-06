@@ -29,6 +29,7 @@ pub struct Spiral {
     y: f64,
     r1: f64,
     r2: f64,
+    #[allow(dead_code)]
     step: f64,
     start_angle: f64,
     da: f64,
@@ -127,6 +128,6 @@ fn rasterizers2() {
     }
 
     ren_base.to_file("tests/tmp/rasterizers2.png").unwrap();
-    assert_eq!(agg::ppm::img_diff("tests/tmp/rasterizers2.png", "images/rasterizers2.png").unwrap(), true);;
+    assert_eq!(agg::ppm::img_diff("tests/tmp/rasterizers2.png", "images/rasterizers2.png").unwrap(), true);
 
 }

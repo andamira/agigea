@@ -30,6 +30,7 @@ pub struct Spiral {
     y: f64,
     r1: f64,
     r2: f64,
+    #[allow(dead_code)]
     step: f64,
     start_angle: f64,
     da: f64,
