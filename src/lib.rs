@@ -139,10 +139,12 @@ pub mod outline;
 pub mod outline_aa;
 pub mod paths;
 pub mod pixfmt;
+#[cfg(feature = "std")]
 pub mod ppm;
 pub mod raster;
 pub mod render;
 pub mod stroke;
+#[cfg(feature = "std")]
 pub mod text;
 pub mod transform;
 
@@ -178,6 +180,7 @@ pub use crate::render::*;
 #[doc(hidden)]
 pub use crate::stroke::*;
 #[doc(hidden)]
+#[cfg(feature = "std")]
 pub use crate::text::*;
 #[doc(hidden)]
 pub use crate::transform::*;
@@ -264,6 +267,7 @@ pub trait Pixel {
     fn cover_mask() -> u64;
     fn bpp() -> usize;
     fn as_bytes(&self) -> &[u8];
+    #[cfg(feature = "std")]
     fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError>;
     fn width(&self) -> usize;
     fn height(&self) -> usize;

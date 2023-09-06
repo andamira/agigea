@@ -3,6 +3,7 @@
 use crate::{buffer::RenderingBuffer, color::*, math::*, Color, Pixel, Source};
 use core::marker::PhantomData;
 
+#[cfg(feature = "std")]
 use std::path::Path;
 
 /// Pixel Format Wrapper around raw pixel component data
@@ -153,6 +154,7 @@ where
         }
     }
 
+    #[cfg(feature = "std")]
     pub fn from_file<P: AsRef<Path>>(filename: P) -> Result<Self, image::ImageError> {
         let (buf, w, h) = crate::ppm::read_file(filename)?;
         Ok(Self { rbuf: RenderingBuffer::from_buf(buf, w, h, 3), phantom: PhantomData })
@@ -181,11 +183,11 @@ impl Source for Pixfmt<Rgba32> {
     fn get(&self, id: (usize, usize)) -> Rgba8 {
         //let n = (id.0 + id.1 * self.rbuf.width) * Pixfmt::<Rgba32>::bpp();
         let p = &self.rbuf[id];
-        let red: f32 = unsafe { std::mem::transmute::<[u8; 4], f32>([p[0], p[1], p[2], p[3]]) };
-        let green: f32 = unsafe { std::mem::transmute::<[u8; 4], f32>([p[4], p[5], p[6], p[7]]) };
-        let blue: f32 = unsafe { std::mem::transmute::<[u8; 4], f32>([p[8], p[9], p[10], p[11]]) };
+        let red: f32 = unsafe { core::mem::transmute::<[u8; 4], f32>([p[0], p[1], p[2], p[3]]) };
+        let green: f32 = unsafe { core::mem::transmute::<[u8; 4], f32>([p[4], p[5], p[6], p[7]]) };
+        let blue: f32 = unsafe { core::mem::transmute::<[u8; 4], f32>([p[8], p[9], p[10], p[11]]) };
         let alpha: f32 =
-            unsafe { std::mem::transmute::<[u8; 4], f32>([p[12], p[13], p[14], p[15]]) };
+            unsafe { core::mem::transmute::<[u8; 4], f32>([p[12], p[13], p[14], p[15]]) };
 
         let c = Rgba32::new(red, green, blue, alpha);
         Rgba8::from_trait(c)
@@ -266,7 +268,8 @@ impl Pixel for Pixfmt<Rgba8> {
         }
     }
 
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
+    #[cfg(feature = "std")]
+    fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
             self.width(),
@@ -320,7 +323,8 @@ impl Pixel for Pixfmt<Rgb8> {
         }
     }
 
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
+    #[cfg(feature = "std")]
+    fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
             self.width(),
@@ -412,7 +416,8 @@ impl Pixel for Pixfmt<Rgba8pre> {
             chunk.copy_from_slice(&c);
         }
     }
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
+    #[cfg(feature = "std")]
+    fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
             self.width(),
@@ -507,9 +512,9 @@ impl Pixel for Pixfmt<Rgba32> {
             self.rbuf[id][8..(4 + 8)].copy_from_slice(&blue[..4]);
             self.rbuf[id][12..(4 + 12)].copy_from_slice(&alpha[..4]);
         }
-        //self.rbuf[id][ 4.. 8] = unsafe { std::mem::transmute(c.g) };
-        //self.rbuf[id][ 8..12] = unsafe { std::mem::transmute(c.b) };
-        //self.rbuf[id][12..16] = unsafe { std::mem::transmute(c.a) };
+        //self.rbuf[id][ 4.. 8] = unsafe { core::mem::transmute(c.g) };
+        //self.rbuf[id][ 8..12] = unsafe { core::mem::transmute(c.b) };
+        //self.rbuf[id][12..16] = unsafe { core::mem::transmute(c.a) };
     }
     fn bpp() -> usize {
         4 * 4
@@ -533,7 +538,8 @@ impl Pixel for Pixfmt<Rgba32> {
         }
     }
 
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
+    #[cfg(feature = "std")]
+    fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
             self.width(),
@@ -584,7 +590,8 @@ impl Pixel for Pixfmt<Gray8> {
         }
     }
 
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
+    #[cfg(feature = "std")]
+    fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
             self.width(),
@@ -641,7 +648,8 @@ impl Pixel for PixfmtAlphaBlend<'_, Pixfmt<Rgb8>, Gray8> {
     fn as_bytes(&self) -> &[u8] {
         self.ren.pixf.as_bytes()
     }
-    fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
+    #[cfg(feature = "std")]
+    fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
             self.width(),
