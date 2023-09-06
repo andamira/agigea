@@ -5,7 +5,7 @@
 use std::path::Path;
 
 pub fn read_file<P: AsRef<Path>>(filename: P) -> Result<(Vec<u8>,usize,usize),image::ImageError> {
-    let img = image::open(filename)?.to_rgb(); // This should be changed
+    let img = image::open(filename)?.to_rgb8(); // This should be changed
     let (w, h) = img.dimensions();
     let buf = img.into_raw();
     Ok((buf, w as usize, h as usize))

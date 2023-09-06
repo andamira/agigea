@@ -279,6 +279,7 @@ impl<T> Stroke<T> where T: VertexSource {
     ///
     /// Return the Miter Join for 3 points
     ///
+    #[allow(clippy::too_many_arguments)]
     fn calc_miter(&self,
                   p0: &Vertex<f64>,
                   p1: &Vertex<f64>,
@@ -327,7 +328,7 @@ impl<T> Stroke<T> where T: VertexSource {
             let x2 = p1.x + dx1;
             let y2 = p1.y - dy1;
             let pz = Vertex::line_to(x2,y2);
-            if (cross(&p0, &p1, &pz) < 0.0) == (cross(&p1, &p2, &pz) < 0.0) {
+            if (cross(p0, p1, &pz) < 0.0) == (cross(p1, p2, &pz) < 0.0) {
                 // This case means that the next segment continues
                 // the previous one (straight line)
                 //-----------------
@@ -395,6 +396,7 @@ impl<T> Stroke<T> where T: VertexSource {
     ///     t = ----------------------------------
     ///          (bx-ax)(dy-cy) - (by-ay)(dx-cx)
     ///```
+    #[allow(clippy::too_many_arguments)]
     fn calc_intersection(&self,
                          ax: f64, ay: f64, bx: f64, by: f64,
                          cx: f64, cy: f64, dx: f64, dy: f64)
@@ -547,7 +549,7 @@ impl<T> Stroke<T> where T: VertexSource {
         // Get verticies from Vertex Source
         let v0 = &self.source.xconvert();
         // Split and loop along unique paths, ended by MoveTo's
-        let pairs = split(&v0);
+        let pairs = split(v0);
         for (m1,m2) in pairs {
             let mut outf = vec![];
             // Clean the current path, return new path
@@ -732,13 +734,11 @@ impl<S> Dash<S> where S: VertexSource {
                         let n = if i >= src.len() { 0 } else { i };
                         v2 = src[n];
                     }
+                } else if i >= src.len() {
+                    out.push(cmd(x,y));
+                    break;
                 } else {
-                    if i >= src.len() {
-                        out.push(cmd(x,y));
-                        break;
-                    } else {
-                        v2 = src[i];
-                    }
+                    v2 = src[i];
                 }
                 curr_rest = len(&v1,&v2);
             }

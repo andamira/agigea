@@ -119,6 +119,12 @@ pub struct Clip {
     clip_flag: u8,
 }
 
+impl Default for Clip {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 fn mul_div(a: i64, b: i64, c: i64) -> i64 {
     let (a,b,c) = (a as f64, b as f64, c as f64);
     (a * b / c).round() as i64
@@ -131,6 +137,7 @@ impl Clip {
               clip_flag: INSIDE }
     }
     /// Clip a line along the top and bottom of the regon
+    #[allow(clippy::too_many_arguments)]
     fn line_clip_y(&self, ras: &mut RasterizerCell,
                    x1: i64, y1: i64,
                    x2: i64, y2: i64,

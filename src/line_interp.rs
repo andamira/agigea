@@ -80,8 +80,8 @@ impl LineInterpolatorAA {
         // Get Distances along the line
         let mut dist = vec![0i64; MAX_HALF_WIDTH + 1];
         let stop = width + POLY_SUBPIXEL_SCALE * 2;
-        for i in 0 .. MAX_HALF_WIDTH {
-            dist[i] = li.y;
+        for item in dist.iter_mut().take(MAX_HALF_WIDTH) {
+            *item = li.y;
             if li.y >= stop {
                 break;
             }
@@ -766,8 +766,10 @@ impl AA3 {
 
 #[derive(Debug)]
 pub(crate) struct DistanceInterpolator00 {
+    #[allow(dead_code)]
     dx1: i64,
     dy1: i64,
+    #[allow(dead_code)]
     dx2: i64,
     dy2: i64,
     pub dist1: i64,
@@ -775,6 +777,7 @@ pub(crate) struct DistanceInterpolator00 {
 }
 
 impl DistanceInterpolator00 {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(xc: i64, yc: i64, x1: i64, y1: i64, x2: i64, y2: i64, x: i64, y: i64) -> Self {
         let dx1 = line_mr(x1) - line_mr(xc);
         let dy1 = line_mr(y1) - line_mr(yc);
@@ -798,6 +801,7 @@ impl DistanceInterpolator00 {
 }
 #[derive(Debug)]
 pub(crate) struct DistanceInterpolator0 {
+    #[allow(dead_code)]
     dx: i64,
     dy: i64,
     pub dist: i64,
@@ -860,7 +864,9 @@ impl DistanceInterpolator1 {
         let dy = dy << POLY_SUBPIXEL_SHIFT; // subpixels
         Self { dist, dx, dy }
     }
+    #[allow(dead_code)]
     pub fn dx(&self) -> i64 { self.dx }
+    #[allow(dead_code)]
     pub fn dy(&self) -> i64 { self.dy }
 }
 impl DistanceInterpolator for DistanceInterpolator1 {
@@ -924,6 +930,7 @@ pub(crate) fn line_mr(x: i64) -> i64 {
 }
 
 impl DistanceInterpolator2 {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(x1: i64, y1: i64, x2: i64, y2: i64,
                sx: i64, sy: i64, x: i64, y: i64, start: bool) -> Self {
         let dx = x2-x1;
@@ -1002,6 +1009,7 @@ impl DistanceInterpolator for DistanceInterpolator2 {
 }
 
 impl DistanceInterpolator3 {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(x1: i64, y1: i64, x2: i64, y2: i64,
                sx: i64, sy: i64, ex: i64, ey: i64,
                x: i64, y: i64) -> Self {
@@ -1268,6 +1276,7 @@ impl LineParameters {
         AA3::new(*self, sx, sy, ex, ey, subpixel_width)
     }
     /// Create a new Interpolator for an Image
+    #[allow(clippy::too_many_arguments)]
     pub fn interp_image(&self, sx: i64, sy: i64, ex: i64, ey: i64, subpixel_width: i64, pattern_start: i64, pattern_width: i64, scale_x: f64) -> LineInterpolatorImage {
         LineInterpolatorImage::new(*self, sx, sy, ex, ey,
                                    subpixel_width, pattern_start,

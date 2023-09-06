@@ -152,7 +152,7 @@ impl SpanGradient {
 
         interp.begin(x as f64 + 0.5, y as f64 + 0.5, len);
 
-        for i in 0 .. len {
+        for item in span.iter_mut().take(len) {
             let (x,y) = interp.coordinates();
             let d = self.gradient.calculate(x >> downscale_shift,
                                             y >> downscale_shift,
@@ -164,7 +164,7 @@ impl SpanGradient {
             if d >= ncolors {
                 d = ncolors - 1;
             }
-            span[i] = self.color[d as usize];
+            *item = self.color[d as usize];
             interp.inc();
         }
         span
@@ -217,7 +217,7 @@ fn render_scanline_aa<T>(sl: &ScanlineU8,
         let colors = span_gen.generate(x, y, len as usize);
         //dbg!(&colors);
         ren.blend_color_hspan(x, y, len, &colors,
-                              if span.len < 0 { &[] } else { &covers },
+                              if span.len < 0 { &[] } else { covers },
                               covers[0]);
     }
 }
@@ -232,11 +232,16 @@ impl RenderData {
         Self { sl: ScanlineU8::new() }
     }
 }
+impl Default for RenderData {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 impl<T> Render for RenderingScanlineAASolid<'_,T> where T: Pixel {
     /// Render a single Scanline Row
     fn render(&mut self, data: &RenderData) {
-        render_scanline_aa_solid(&data.sl, &mut self.base, self.color);
+        render_scanline_aa_solid(&data.sl, self.base, self.color);
     }
     /// Set the current color
     fn color<C: Color>(&mut self, color: C) {
@@ -248,7 +253,7 @@ impl<T> Render for RenderingScanlineAASolid<'_,T> where T: Pixel {
 impl<T> Render for RenderingScanlineBinSolid<'_,T> where T: Pixel {
     /// Render a single Scanline Row
     fn render(&mut self, data: &RenderData) {
-        render_scanline_bin_solid(&data.sl, &mut self.base, self.color);
+        render_scanline_bin_solid(&data.sl, self.base, self.color);
     }
     /// Set the current Color
     fn color<C: Color>(&mut self, color: C) {
@@ -259,7 +264,7 @@ impl<T> Render for RenderingScanlineBinSolid<'_,T> where T: Pixel {
 impl<T> Render for RenderingScanlineAA<'_,T> where T: Pixel {
     /// Render a single Scanline Row
     fn render(&mut self, data: &RenderData) {
-        render_scanline_aa(&data.sl, &mut self.base, &self.span);
+        render_scanline_aa(&data.sl, self.base, &self.span);
     }
     /// Set the current Color
     fn color<C: Color>(&mut self, _color: C) {
@@ -401,9 +406,7 @@ impl BresehamInterpolator {
         let len = if ver { dy } else { dx };
         let inc = if ver {
             if y2 > y1 { 1 } else { -1 }
-        } else {
-            if x2 > x1 { 1 } else { -1 }
-        };
+        } else if x2 > x1 { 1 } else { -1 };
         let (z1,z2) = if ver { (x1_hr,x2_hr) } else { (y1_hr,y2_hr) };
         // XXX  - value() should not be used
         let func = LineInterpolator::new(z1.value(), z2.value(), len);
@@ -413,12 +416,12 @@ impl BresehamInterpolator {
     }
     pub fn vstep(&mut self) {
         self.func.inc();
-        self.y1 += self.inc as i64;
+        self.y1 += self.inc;
         self.x2 = self.func.y >> POLY_SUBPIXEL_SHIFT;
     }
     pub fn hstep(&mut self) {
         self.func.inc();
-        self.x1 += self.inc as i64;
+        self.x1 += self.inc;
         self.y2 = self.func.y >> POLY_SUBPIXEL_SHIFT;
     }
 }
@@ -523,9 +526,13 @@ impl LineInterpolator {
         self.xmod -= self.rem;
         self.y -= self.left;
     }
+    #[allow(dead_code)]
     pub fn xmod(&self)  -> i64 { self.xmod  }
+    #[allow(dead_code)]
     pub fn count(&self) -> i64 { self.count }
+    #[allow(dead_code)]
     pub fn left(&self)  -> i64 { self.left  }
+    #[allow(dead_code)]
     pub fn rem(&self)   -> i64 { self.rem   }
 }
 
@@ -593,6 +600,7 @@ pub(crate) fn clip_line_segment(x1: i64, y1: i64, x2: i64, y2: i64, clip_box: Re
     (x1,y1,x2,y2,ret)
 }
 
+#[allow(clippy::too_many_arguments)]
 fn clip_move_point(x1: i64, y1: i64, x2: i64, y2: i64, clip_box: Rectangle<i64>, x: i64, y: i64, flags: u8) -> Option<(i64,i64)>{
     let (mut x, mut y) = (x,y);
     if flags & (LEFT | RIGHT) != 0 {
@@ -653,7 +661,7 @@ impl<T> DrawOutline for RendererOutlineImg<'_, T> where T: Pixel {
                     let lp2 = LineParameters::new(x1, y1, x2, y2,
                                                   len_i64_xy(x1, y1, x2, y2));
                     if flags & 1 != 0 {
-                        self.start += (len_i64_xy(lp.x1, lp.y1, x1, y1) as f64 / self.scale_x as f64).round() as i64;
+                        self.start += (len_i64_xy(lp.x1, lp.y1, x1, y1) as f64 / self.scale_x).round() as i64;
                         sx = x1 + (y2 - y1);
                         sy = y1 - (x2 - x1);
                     } else {
@@ -676,7 +684,7 @@ impl<T> DrawOutline for RendererOutlineImg<'_, T> where T: Pixel {
                     self.line3_no_clip(lp, sx, sy, ex, ey);
                 }
             }
-            self.start = start + (lp.len as f64 / self.scale_x as f64).round() as i64;
+            self.start = start + (lp.len as f64 / self.scale_x).round() as i64;
         } else {
             self.line3_no_clip(lp, sx, sy, ex, ey);
         }
@@ -827,6 +835,7 @@ impl LineImagePattern {
     pub fn line_width(&self) -> i64 {
         self.half_height_hr
     }
+    #[allow(clippy::misnamed_getters)] // CHECK
     pub fn width(&self) -> u64 {
         self.height
     }
@@ -860,6 +869,7 @@ impl LineImagePatternPow2 {
     pub fn line_width(&self) -> i64 {
         self.base.half_height_hr
     }
+    #[allow(clippy::misnamed_getters)] // CHECK
     pub fn width(&self) -> u64 {
         self.base.height
     }
@@ -940,6 +950,7 @@ pub struct LineInterpolatorImage {
     old_y: i64,
     count: i64,
     width: i64,
+    #[allow(dead_code)]
     max_extent: i64,
     start: i64,
     step: i64,
@@ -950,6 +961,7 @@ pub struct LineInterpolatorImage {
 }
 
 impl LineInterpolatorImage {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(lp: LineParameters,
                sx: i64, sy: i64, ex: i64, ey: i64,
                subpixel_width: i64,
@@ -994,9 +1006,9 @@ impl LineInterpolatorImage {
         let mut li = LineInterpolator::new(0, dd, lp.len);
 
         let stop = width + POLY_SUBPIXEL_SCALE * 2;
-        for i in 0 .. MAX_HALF_WIDTH {
-            dist_pos[i] = li.y;
-            if dist_pos[i] >= stop {
+        for item in dist_pos.iter_mut().take(MAX_HALF_WIDTH) {
+            *item = li.y;
+            if *item >= stop {
                 break;
             }
             li.inc();
@@ -1295,10 +1307,12 @@ struct DistanceInterpolator4 {
     dist_start: i64,
     dist_pict: i64,
     dist_end: i64,
+    #[allow(dead_code)]
     len: i64,
 }
 
 impl DistanceInterpolator4 {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(x1: i64, y1: i64, x2: i64, y2: i64, sx: i64, sy: i64, ex: i64, ey: i64, len: i64, scale: f64, x: i64, y: i64) -> Self {
         let dx = x2 - x1;
         let dy = y2 - y1;

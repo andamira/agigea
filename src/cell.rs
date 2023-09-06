@@ -103,7 +103,7 @@ impl RasterizerCell {
         for c in self.cells.iter() {
             if c.y >= 0 {
                 let y = c.y as usize;
-                self.sorted_y[y].push(c.clone());
+                self.sorted_y[y].push(*c);
             }
         }
         // Sort by the x value

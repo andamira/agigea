@@ -28,6 +28,7 @@ pub struct GsvText {
     font: Vec<u8>,
     //loaded_font: Vec<u8>,
     //status: TextStatus,
+    #[allow(dead_code)]
     big_endian: bool,
     flip: bool,
     //indices: Vec<u8>,
@@ -205,7 +206,7 @@ pub fn draw_text<T>(txt: &str, x: i64, y: i64, font: &ft::Face, ren_base: &mut R
         let top  = font.glyph().bitmap_top() as i64;
         let buf : Vec<_> = g.buffer().iter().map(|&x| x as u64).collect();
         let rows = g.rows() as i64;
-        let pitch = g.pitch().abs() as usize;
+        let pitch = g.pitch().unsigned_abs() as usize;
         let width = g.width() as i64;
         for i in 0 .. rows {
             ren_base.blend_solid_hspan(x + left, y-top+i, width,
@@ -236,7 +237,8 @@ impl From<String> for AggFontError {
     }
 }
 
-pub fn font(name: &str) -> Result<ft::Face, AggFontError> {
+// WIP
+pub fn font(_name: &str) -> Result<ft::Face, AggFontError> {
     //let prop = font_loader::system_fonts::FontPropertyBuilder::new().family(name).build();
     //let (font, _) = font_loader::system_fonts::get(&prop).ok_or("error loading font".to_string())?;
     //let lib = ft::Library::init()?;
@@ -263,6 +265,7 @@ pub struct Label<'a> {
     ya: YAlign,
     color: Rgba8,
     font: &'a ft::Face,
+    #[allow(dead_code)]
     size: f64,
 }
 
@@ -309,6 +312,7 @@ impl<'a> Label<'a> {
 
 // https://www.freetype.org/freetype2/docs/glyphs/glyphs-5.html
 // 2. Subpixel positioning
+#[allow(clippy::too_many_arguments)]
 fn draw_text_subpixel<T>(txt: &str, x: f64, y: f64,
                          xalign: XAlign,
                          yalign: YAlign,
@@ -349,7 +353,7 @@ fn draw_text_subpixel<T>(txt: &str, x: f64, y: f64,
         let buf : Vec<_> = bit.buffer().iter().map(|&x| x as u64).collect();
         let rows  = bit.rows() as i64;
         let width = bit.width() as i64;
-        let pitch = bit.pitch().abs() as usize;
+        let pitch = bit.pitch().unsigned_abs() as usize;
         for i in 0 .. rows {
             ren_base.blend_solid_hspan(x.floor() as i64 + left,
                                        y.floor() as i64 + i - top,

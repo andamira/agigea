@@ -2,9 +2,10 @@
 use crate::clip::Rectangle;
 use crate::VertexSource;
 
-#[derive(Debug,Copy,Clone,PartialEq)]
+#[derive(Debug,Default,Copy,Clone,PartialEq)]
 pub enum PathCommand {
     Stop,
+    #[default]
     MoveTo,
     LineTo,
     Close,
@@ -14,11 +15,6 @@ pub enum PathCommand {
     //Catrom,
     //UBSpline,
     //EndPoly,
-}
-impl Default for PathCommand {
-    fn default() -> PathCommand {
-        PathCommand::MoveTo
-    }
 }
 
 #[derive(Debug,Default,Copy,Clone)]
