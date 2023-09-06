@@ -1,16 +1,11 @@
 //! Alphamask Adapator
 
-//use crate::math::blend_pix;
-use crate::color::Gray8;
-use crate::color::Rgb8;
-use crate::pixfmt::Pixfmt;
-
-use crate::color::Rgba8;
-use crate::math::lerp_u8;
-use crate::math::multiply_u8;
-use crate::Color;
-use crate::Pixel;
-use crate::Source;
+use crate::{
+    color::{Gray8, Rgb8, Rgba8},
+    math::{lerp_u8, multiply_u8},
+    pixfmt::Pixfmt,
+    Color, Pixel, Source,
+};
 
 /// Alpha Mask Adaptor
 pub struct AlphaMaskAdaptor<T>

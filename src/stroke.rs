@@ -21,14 +21,11 @@
 //!     ras.add_path(&stroke);
 //!
 
-use crate::paths::cross;
-use crate::paths::len;
-use crate::paths::split;
-use crate::paths::PathCommand;
-use crate::paths::Vertex;
-
-use crate::VertexSource;
-use std::f64::consts::PI;
+use crate::{
+    paths::{cross, len, split, PathCommand, Vertex},
+    VertexSource,
+};
+use core::f64::consts::PI;
 
 /// Line End or Cap Style
 #[derive(Debug, Copy, Clone, PartialEq)]

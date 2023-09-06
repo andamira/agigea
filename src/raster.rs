@@ -1,20 +1,10 @@
 //! Rasterizer
 
-use crate::POLY_SUBPIXEL_SCALE;
-use crate::POLY_SUBPIXEL_SHIFT;
-//use crate::POLY_SUBPIXEL_MASK;
-
-use crate::cell::RasterizerCell;
-use crate::clip::Clip;
-use crate::paths::PathCommand;
-use crate::paths::Vertex;
-use crate::scan::ScanlineU8;
-
-//use crate::Rasterize;
-use crate::VertexSource;
-
-use std::cmp::max;
-use std::cmp::min;
+use crate::{
+    cell::RasterizerCell, clip::Clip, paths::PathCommand, paths::Vertex, scan::ScanlineU8,
+    VertexSource, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
+};
+use core::cmp::{max, min};
 
 struct RasConvInt {}
 impl RasConvInt {

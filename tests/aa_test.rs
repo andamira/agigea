@@ -38,7 +38,7 @@ fn t26_aa_test() {
         ren.color(agg::Rgba8::new(255, 255, 255, 51));
         for i in (1..=180).rev() {
             ras.reset();
-            let n = 2.0 * (i as f64) * std::f64::consts::PI / 180.0;
+            let n = 2.0 * (i as f64) * core::f64::consts::PI / 180.0;
             let mut path = agg::Path::new();
             path.move_to((cx + r * n.sin()) + 0.5,
                          (cy + r * n.cos()) + 0.5);

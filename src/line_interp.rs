@@ -1,14 +1,8 @@
-use crate::render::LineInterpolator;
-use crate::render::LineInterpolatorImage;
-//use crate::render::RendererPrimitives;
-
-use crate::DistanceInterpolator;
-use crate::RenderOutline;
-use crate::MAX_HALF_WIDTH;
-use crate::POLY_MR_SUBPIXEL_SHIFT;
-use crate::POLY_SUBPIXEL_MASK;
-use crate::POLY_SUBPIXEL_SCALE;
-use crate::POLY_SUBPIXEL_SHIFT;
+use crate::{
+    render::{LineInterpolator, LineInterpolatorImage},
+    DistanceInterpolator, RenderOutline, MAX_HALF_WIDTH, POLY_MR_SUBPIXEL_SHIFT,
+    POLY_SUBPIXEL_MASK, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
+};
 
 /// Line Interpolator AA
 #[derive(Debug)]

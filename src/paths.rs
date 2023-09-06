@@ -1,5 +1,4 @@
-use crate::clip::Rectangle;
-use crate::VertexSource;
+use crate::{clip::Rectangle, VertexSource};
 
 #[derive(Debug, Default, Copy, Clone, PartialEq)]
 pub enum PathCommand {
@@ -217,7 +216,7 @@ impl VertexSource for Ellipse {
     }
 }
 
-use std::f64::consts::PI;
+use core::f64::consts::PI;
 impl Ellipse {
     /// Create a new Ellipse
     pub fn new(x: f64, y: f64, rx: f64, ry: f64, num: usize) -> Self {

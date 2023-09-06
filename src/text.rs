@@ -1,9 +1,4 @@
-use crate::base::RenderingBase;
-use crate::color::Rgba8;
-use crate::ft;
-use crate::paths::Vertex;
-use crate::Pixel;
-use crate::VertexSource;
+use crate::{base::RenderingBase, color::Rgba8, ft, paths::Vertex, Pixel, VertexSource};
 
 #[derive(Debug, PartialEq)]
 enum TextStatus {
@@ -156,7 +151,7 @@ impl VertexSource for GsvText {
 }
 
 fn value(v: &[u8]) -> i16 {
-    unsafe { std::mem::transmute::<[u8; 2], i16>([v[0], v[1]]) }
+    unsafe { core::mem::transmute::<[u8; 2], i16>([v[0], v[1]]) }
 }
 
 pub struct GsvDefaultFont();
@@ -242,7 +237,7 @@ impl From<String> for AggFontError {
     }
 }
 
-// WIP
+// FIXME
 pub fn font(_name: &str) -> Result<ft::Face, AggFontError> {
     //let prop = font_loader::system_fonts::FontPropertyBuilder::new().family(name).build();
     //let (font, _) = font_loader::system_fonts::get(&prop).ok_or("error loading font".to_string())?;

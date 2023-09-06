@@ -1,11 +1,10 @@
 //! Transformations
 
-use crate::paths::Path;
-use crate::paths::Vertex;
-
-use crate::VertexSource;
-
-use std::ops::Mul;
+use crate::{
+    paths::{Path, Vertex},
+    VertexSource,
+};
+use core::ops::Mul;
 
 /// Transformation
 #[derive(Debug, Default, Copy, Clone, PartialEq)]

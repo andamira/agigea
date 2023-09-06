@@ -1,11 +1,7 @@
 //! Rendering Base
 
-use crate::color::*;
-use crate::Color;
-use crate::Pixel;
-use crate::Source;
-use std::cmp::max;
-use std::cmp::min;
+use crate::{color::*, Color, Pixel, Source};
+use core::cmp::{max, min};
 
 /// Rendering Base
 ///

@@ -1,11 +1,11 @@
 //! Clipping Region
 
-//use crate::POLY_SUBPIXEL_SCALE;
 use crate::cell::RasterizerCell;
+use core::cmp::PartialOrd;
 
 /// Rectangle
 #[derive(Debug, Copy, Clone)]
-pub struct Rectangle<T: std::cmp::PartialOrd + Copy> {
+pub struct Rectangle<T: PartialOrd + Copy> {
     /// Minimum x value
     x1: T,
     /// Minimum y value
@@ -17,7 +17,7 @@ pub struct Rectangle<T: std::cmp::PartialOrd + Copy> {
 }
 impl<T> Rectangle<T>
 where
-    T: std::cmp::PartialOrd + Copy,
+    T: PartialOrd + Copy,
 {
     /// Create a new Rectangle
     ///
@@ -112,7 +112,7 @@ pub const TOP: u8 = 0b0000_1000;
 /// - [BOTTOM](constant.BOTTOM.html)
 /// - [TOP](constant.TOP.html)
 ///
-fn clip_flags<T: std::cmp::PartialOrd>(x: &T, y: &T, x1: &T, y1: &T, x2: &T, y2: &T) -> u8 {
+fn clip_flags<T: PartialOrd>(x: &T, y: &T, x1: &T, y1: &T, x2: &T, y2: &T) -> u8 {
     let mut code = INSIDE;
     if x < x1 {
         code |= LEFT;

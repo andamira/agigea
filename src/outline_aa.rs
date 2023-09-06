@@ -32,30 +32,19 @@
 //!
 //! ![Output](https://raw.githubusercontent.com/savage13/agg/master/images/outline_aa.png)
 //!
-use crate::base::RenderingBase;
-use crate::clip::Rectangle;
-use crate::color::Rgba8;
-use crate::line_interp::DistanceInterpolator0;
-use crate::line_interp::DistanceInterpolator00;
-use crate::line_interp::DrawVars;
-use crate::line_interp::LineParameters;
-use crate::paths::PathCommand;
-use crate::paths::Vertex;
-use crate::raster::len_i64_xy;
-use crate::render::clip_line_segment;
-use crate::render::LINE_MAX_LENGTH;
-use crate::stroke::LineJoin;
-use crate::Color;
-use crate::Pixel;
-use crate::RenderOutline;
-use crate::MAX_HALF_WIDTH;
-use crate::POLY_SUBPIXEL_MASK;
-use crate::POLY_SUBPIXEL_SHIFT;
 
-use crate::raster::len_i64;
-use crate::DrawOutline;
-use crate::VertexSource;
-use crate::POLY_SUBPIXEL_SCALE;
+use crate::{
+    base::RenderingBase,
+    clip::Rectangle,
+    color::Rgba8,
+    line_interp::{DistanceInterpolator0, DistanceInterpolator00, DrawVars, LineParameters},
+    paths::{PathCommand, Vertex},
+    raster::{len_i64, len_i64_xy},
+    render::{clip_line_segment, LINE_MAX_LENGTH},
+    stroke::LineJoin,
+    Color, DrawOutline, Pixel, RenderOutline, VertexSource, MAX_HALF_WIDTH, POLY_SUBPIXEL_MASK,
+    POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
+};
 
 /// Outline Rasterizer with Anti-Aliasing
 pub struct RasterizerOutlineAA<'a, T>

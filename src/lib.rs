@@ -124,7 +124,8 @@
 //! [`render_all_paths`]: render/fn.render_all_paths.html
 //! [`render_scanlines_aa_solid`]: render/fn.render_scanlines_aa_solid.html
 //! [`render_scanlines_bin_solid`]: render/fn.render_scanlines_bin_solid.html
-use std::fmt::Debug;
+
+use core::fmt::Debug;
 
 #[doc(hidden)]
 pub use freetype as ft;

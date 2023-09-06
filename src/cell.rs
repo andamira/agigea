@@ -1,11 +1,10 @@
 //! Rendering Cells
 
-use crate::POLY_SUBPIXEL_MASK;
-use crate::POLY_SUBPIXEL_SCALE;
-use crate::POLY_SUBPIXEL_SHIFT;
-
-use std::cmp::max;
-use std::cmp::min;
+use crate::{POLY_SUBPIXEL_MASK, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT};
+use core::{
+    cmp::{max, min},
+    i64::{MAX as i64_MAX, MIN as i64_MIN},
+};
 
 /// Rendering Cell
 ///
@@ -28,7 +27,7 @@ impl Cell {
     ///
     /// Cover and Area are both 0
     fn new() -> Self {
-        Cell { x: std::i64::MAX, y: std::i64::MAX, cover: 0, area: 0 }
+        Cell { x: i64_MAX, y: i64_MAX, cover: 0, area: 0 }
     }
     /// Create new cell at position (x,y)
     pub fn at(x: i64, y: i64) -> Self {
@@ -69,19 +68,19 @@ impl RasterizerCell {
     pub fn new() -> Self {
         Self {
             cells: Vec::with_capacity(256),
-            min_x: std::i64::MAX,
-            min_y: std::i64::MAX,
-            max_x: std::i64::MIN,
-            max_y: std::i64::MIN,
+            min_x: i64_MAX,
+            min_y: i64_MAX,
+            max_x: i64_MIN,
+            max_y: i64_MIN,
             sorted_y: vec![],
         }
     }
     /// Clear cells
     pub fn reset(&mut self) {
-        self.max_x = std::i64::MIN;
-        self.max_y = std::i64::MIN;
-        self.min_x = std::i64::MAX;
-        self.min_y = std::i64::MAX;
+        self.max_x = i64_MIN;
+        self.max_y = i64_MIN;
+        self.min_x = i64_MAX;
+        self.min_y = i64_MAX;
         self.sorted_y.clear(); // Not sure if this should be cleared
         self.cells.clear(); // Not sure if this should be cleared
     }

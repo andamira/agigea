@@ -1,7 +1,6 @@
 //! Colors
 
-use crate::math::multiply_u8;
-use crate::Color;
+use crate::{math::multiply_u8, Color};
 
 /// Convert an f64 [0,1] component to a u8 [0,255] component
 fn cu8(v: f64) -> u8 {
@@ -269,7 +268,7 @@ impl Rgba32 {
         Self { r, g, b, a }
     }
     pub fn premultiply(&self) -> Self {
-        if (self.a - 1.0).abs() <= std::f32::EPSILON {
+        if (self.a - 1.0).abs() <= core::f32::EPSILON {
             Rgba32::new(self.r, self.g, self.b, self.a)
         } else if self.a == 0.0 {
             Rgba32::new(0., 0., 0., self.a)

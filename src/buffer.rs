@@ -1,5 +1,7 @@
 //! Rendering buffer
 
+use core::ops::{Index, IndexMut};
+
 /// Rendering Buffer
 ///
 /// Data is stored as row-major order (C-format)
@@ -35,9 +37,6 @@ impl RenderingBuffer {
         RenderingBuffer { width, height, bpp, data }
     }
 }
-
-use std::ops::Index;
-use std::ops::IndexMut;
 
 impl Index<(usize, usize)> for RenderingBuffer {
     type Output = [u8];

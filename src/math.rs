@@ -37,8 +37,7 @@ pub fn multiply_u8(a: u8, b: u8) -> u8 {
 
 #[cfg(test)]
 mod tests {
-    use super::lerp_u8;
-    use super::multiply_u8;
+    use super::{lerp_u8, multiply_u8};
     // use super::prelerp_u8; // FIXME
 
     fn mu864(i: u8, j: u8) -> u8 {

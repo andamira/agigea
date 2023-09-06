@@ -1,32 +1,20 @@
 //! Renderer
 
-use crate::base::RenderingBase;
-use crate::color::Rgba8;
-use crate::scan::ScanlineU8;
-use crate::MAX_HALF_WIDTH;
-use crate::POLY_MR_SUBPIXEL_SHIFT;
-use crate::POLY_SUBPIXEL_MASK;
-use crate::POLY_SUBPIXEL_SCALE;
-use crate::POLY_SUBPIXEL_SHIFT;
-
-use crate::clip::Rectangle;
-use crate::clip::{BOTTOM, INSIDE, LEFT, RIGHT, TOP};
-use crate::line_interp::line_mr;
-use crate::line_interp::LineParameters;
-use crate::pixfmt::Pixfmt;
-use crate::raster::len_i64_xy;
-use crate::raster::RasterizerScanline;
-use crate::Rgb8;
-use crate::Transform;
-
-use crate::Color;
-use crate::DrawOutline;
-use crate::Pixel;
-use crate::Render;
-use crate::Source;
-use crate::VertexSource;
-
-use crate::outline::Subpixel;
+use crate::{
+    base::RenderingBase,
+    clip::Rectangle,
+    clip::{BOTTOM, INSIDE, LEFT, RIGHT, TOP},
+    color::Rgba8,
+    line_interp::line_mr,
+    line_interp::LineParameters,
+    outline::Subpixel,
+    pixfmt::Pixfmt,
+    raster::len_i64_xy,
+    raster::RasterizerScanline,
+    scan::ScanlineU8,
+    Color, DrawOutline, Pixel, Render, Rgb8, Source, Transform, VertexSource, MAX_HALF_WIDTH,
+    POLY_MR_SUBPIXEL_SHIFT, POLY_SUBPIXEL_MASK, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
+};
 
 pub(crate) const LINE_MAX_LENGTH: i64 = 1 << (POLY_SUBPIXEL_SHIFT + 10);
 
@@ -489,7 +477,7 @@ impl LineInterpolator {
     ///
     /// `xmod`, `rem` and `left` are adjusted if `xmod` is negative
     pub fn new(y1: i64, y2: i64, count: i64) -> Self {
-        let cnt = std::cmp::max(1, count);
+        let cnt = core::cmp::max(1, count);
         let mut left = (y2 - y1) / cnt;
         let mut rem = (y2 - y1) % cnt;
         let mut xmod = rem;
@@ -521,7 +509,7 @@ impl LineInterpolator {
     ///
     /// `xmod`, `rem` and `left` are adjusted if `xmod` is negative
     pub fn new_back_adjusted_2(y: i64, count: i64) -> Self {
-        let cnt = std::cmp::max(1, count);
+        let cnt = core::cmp::max(1, count);
         let mut left = y / cnt;
         let mut rem = y % cnt;
         let mut xmod = rem;

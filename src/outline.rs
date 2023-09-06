@@ -22,15 +22,10 @@
 //!
 //! ![Output](https://raw.githubusercontent.com/savage13/agg/master/images/primitive.png)
 
-use crate::base::RenderingBase;
-use crate::color::Rgba8;
-use crate::paths::PathCommand;
-use crate::render::BresehamInterpolator;
-use crate::Color;
-use crate::Pixel;
-use crate::VertexSource;
-use crate::POLY_SUBPIXEL_SCALE;
-use crate::POLY_SUBPIXEL_SHIFT;
+use crate::{
+    base::RenderingBase, color::Rgba8, paths::PathCommand, render::BresehamInterpolator, Color,
+    Pixel, VertexSource, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
+};
 
 #[derive(Debug, Copy, Clone, PartialEq, Default)]
 pub(crate) struct Subpixel(i64);

@@ -1,14 +1,7 @@
 //! Pixel Format
 
-use crate::buffer::RenderingBuffer;
-use crate::color::*;
-use crate::math::*;
-
-use crate::Color;
-use crate::Pixel;
-use crate::Source;
-
-use std::marker::PhantomData;
+use crate::{buffer::RenderingBuffer, color::*, math::*, Color, Pixel, Source};
+use core::marker::PhantomData;
 
 use std::path::Path;
 
