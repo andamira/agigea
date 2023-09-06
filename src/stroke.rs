@@ -25,6 +25,7 @@ use crate::{
     paths::{cross, len, split, PathCommand, Vertex},
     VertexSource,
 };
+use alloc::{vec, vec::Vec};
 use core::f64::consts::PI;
 
 /// Line End or Cap Style

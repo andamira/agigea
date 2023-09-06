@@ -4,6 +4,7 @@ use crate::{
     paths::{Path, Vertex},
     VertexSource,
 };
+use alloc::{vec, vec::Vec};
 use core::ops::Mul;
 
 /// Transformation

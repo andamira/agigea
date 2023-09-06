@@ -45,6 +45,7 @@ use crate::{
     Color, DrawOutline, Pixel, RenderOutline, VertexSource, MAX_HALF_WIDTH, POLY_SUBPIXEL_MASK,
     POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
 };
+use alloc::{vec, vec::Vec};
 
 /// Outline Rasterizer with Anti-Aliasing
 pub struct RasterizerOutlineAA<'a, T>

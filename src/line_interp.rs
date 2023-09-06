@@ -3,6 +3,7 @@ use crate::{
     DistanceInterpolator, RenderOutline, MAX_HALF_WIDTH, POLY_MR_SUBPIXEL_SHIFT,
     POLY_SUBPIXEL_MASK, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
 };
+use alloc::{vec, vec::Vec};
 
 /// Line Interpolator AA
 #[derive(Debug)]

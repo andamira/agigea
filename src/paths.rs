@@ -1,4 +1,5 @@
 use crate::{clip::Rectangle, VertexSource};
+use alloc::{vec, vec::Vec};
 
 #[derive(Debug, Default, Copy, Clone, PartialEq)]
 pub enum PathCommand {

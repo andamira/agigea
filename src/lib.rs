@@ -125,73 +125,113 @@
 //! [`render_scanlines_aa_solid`]: render/fn.render_scanlines_aa_solid.html
 //! [`render_scanlines_bin_solid`]: render/fn.render_scanlines_bin_solid.html
 
+#![warn(clippy::all)]
+// environment
+#![cfg_attr(not(feature = "std"), no_std)]
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
+#[cfg(feature = "alloc")]
+use alloc::vec::Vec;
+
 use core::fmt::Debug;
 
 #[doc(hidden)]
 pub use freetype as ft;
 
+#[cfg(feature = "alloc")]
 pub mod alphamask;
 pub mod base;
+#[cfg(feature = "alloc")]
 pub mod clip;
 pub mod color;
+#[cfg(feature = "alloc")]
 pub mod line_interp;
+#[cfg(feature = "alloc")]
 pub mod outline;
+#[cfg(feature = "alloc")]
 pub mod outline_aa;
+#[cfg(feature = "alloc")]
 pub mod paths;
+#[cfg(feature = "alloc")]
 pub mod pixfmt;
 #[cfg(feature = "std")]
 pub mod ppm;
+#[cfg(feature = "alloc")]
 pub mod raster;
+#[cfg(feature = "alloc")]
 pub mod render;
+#[cfg(feature = "alloc")]
 pub mod stroke;
 #[cfg(feature = "std")]
 pub mod text;
+#[cfg(feature = "alloc")]
 pub mod transform;
 
+#[cfg(feature = "alloc")]
 pub(crate) mod buffer;
+#[cfg(feature = "alloc")]
 pub(crate) mod cell;
 pub mod math;
+#[cfg(feature = "alloc")]
 pub(crate) mod scan;
 
 pub mod gallery;
 
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::alphamask::*;
 #[doc(hidden)]
 pub use crate::base::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::clip::*;
 #[doc(hidden)]
 pub use crate::color::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::line_interp::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::outline::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::outline_aa::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::paths::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::pixfmt::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::raster::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::render::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::stroke::*;
 #[doc(hidden)]
 #[cfg(feature = "std")]
 pub use crate::text::*;
 #[doc(hidden)]
+#[cfg(feature = "alloc")]
 pub use crate::transform::*;
 
+#[cfg(feature = "alloc")]
 const POLY_SUBPIXEL_SHIFT: i64 = 8;
+#[cfg(feature = "alloc")]
 const POLY_SUBPIXEL_SCALE: i64 = 1 << POLY_SUBPIXEL_SHIFT;
+#[cfg(feature = "alloc")]
 const POLY_SUBPIXEL_MASK: i64 = POLY_SUBPIXEL_SCALE - 1;
+#[cfg(feature = "alloc")]
 const POLY_MR_SUBPIXEL_SHIFT: i64 = 4;
+#[cfg(feature = "alloc")]
 const MAX_HALF_WIDTH: usize = 64;
 
 /// Source of vertex points
+#[cfg(feature = "alloc")]
 pub trait VertexSource {
     /// Rewind the vertex source (unused)
     fn rewind(&self) {}
@@ -231,6 +271,7 @@ pub trait Color: Debug + Copy {
     fn is_premultiplied(&self) -> bool;
 }
 /// Render scanlines to Image
+#[cfg(feature = "alloc")]
 pub trait Render {
     /// Render a single scanlines to the image
     fn render(&mut self, data: &RenderData);
@@ -465,6 +506,7 @@ pub(crate) trait RenderOutline {
 }
 /// Functions for Drawing Outlines
 //pub trait DrawOutline: Lines + AccurateJoins + SetColor {}
+#[cfg(feature = "alloc")]
 pub trait DrawOutline {
     /// Set the current Color
     fn color<C: Color>(&mut self, color: C);

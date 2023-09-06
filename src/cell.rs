@@ -1,6 +1,7 @@
 //! Rendering Cells
 
 use crate::{POLY_SUBPIXEL_MASK, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT};
+use alloc::{vec, vec::Vec};
 use core::{
     cmp::{max, min},
     i64::{MAX as i64_MAX, MIN as i64_MIN},

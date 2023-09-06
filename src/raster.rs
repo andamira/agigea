@@ -4,6 +4,7 @@ use crate::{
     cell::RasterizerCell, clip::Clip, paths::PathCommand, paths::Vertex, scan::ScanlineU8,
     VertexSource, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
 };
+use alloc::vec::Vec;
 use core::cmp::{max, min};
 
 struct RasConvInt {}

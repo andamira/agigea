@@ -9,6 +9,12 @@ homepage = "https://github.com/savage13/agg"
 license = "BSD-2-Clause"
 description = "High-quality 2D graphics engine based on Anti-grain Geometry"
 
+[features]
+default = ["alloc"]
+
+std = ["alloc"]
+alloc = []
+
 [dependencies]
 freetype-rs = "0.32.0"
 # font-loader = "0.11.0"
@@ -17,4 +23,3 @@ freetype-rs = "0.32.0"
 version = "0.24.7"
 default-features = false
 features = ["png", "gif", "pnm", "bmp", "jpeg"]
-

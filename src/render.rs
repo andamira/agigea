@@ -15,6 +15,7 @@ use crate::{
     Color, DrawOutline, Pixel, Render, Rgb8, Source, Transform, VertexSource, MAX_HALF_WIDTH,
     POLY_MR_SUBPIXEL_SHIFT, POLY_SUBPIXEL_MASK, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
 };
+use alloc::{vec, vec::Vec};
 
 pub(crate) const LINE_MAX_LENGTH: i64 = 1 << (POLY_SUBPIXEL_SHIFT + 10);
 
@@ -1580,6 +1581,8 @@ impl DistanceInterpolator4 {
 #[cfg(test)]
 mod tests {
     use super::LineInterpolator;
+    use alloc::vec;
+
     #[test]
     fn line_interpolator() {
         let mut lp = LineInterpolator::new(0 << 8, 10 << 8, 10 << 8);

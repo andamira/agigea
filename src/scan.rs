@@ -1,5 +1,6 @@
 //! Scanlines
 
+use alloc::{vec, vec::Vec};
 //use std::collections::HashMap;
 
 /// Contigious area of data

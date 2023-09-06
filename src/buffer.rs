@@ -1,5 +1,6 @@
 //! Rendering buffer
 
+use alloc::{vec, vec::Vec};
 use core::ops::{Index, IndexMut};
 
 /// Rendering Buffer
