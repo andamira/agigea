@@ -34,72 +34,86 @@ There are multiple ways to put / draw pixels including:
    [`render_all_paths`], [`render_scanlines_aa_solid`] and
    [`render_scanlines_bin_solid`]
 
-      use agg::Render;
+```
+# #[cfg(feature = "std")]
+# {
+use agg::Render;
 
-      // Create a blank image 10x10 pixels
-      let pix = agg::Pixfmt::<agg::Rgb8>::new(100,100);
-      let mut ren_base = agg::RenderingBase::new(pix);
-      ren_base.clear(agg::Rgba8::white());
+// Create a blank image 10x10 pixels
+let pix = agg::Pixfmt::<agg::Rgb8>::new(100,100);
+let mut ren_base = agg::RenderingBase::new(pix);
+ren_base.clear(agg::Rgba8::white());
 
-      // Draw a polygon from (10,10) - (50,90) - (90,10)
-      let mut ras = agg::RasterizerScanline::new();
-      ras.move_to(10.0, 10.0);
-      ras.line_to(50.0, 90.0);
-      ras.line_to(90.0, 10.0);
+// Draw a polygon from (10,10) - (50,90) - (90,10)
+let mut ras = agg::RasterizerScanline::new();
+ras.move_to(10.0, 10.0);
+ras.line_to(50.0, 90.0);
+ras.line_to(90.0, 10.0);
 
-      // Render the line to the image
-      let mut ren = agg::RenderingScanlineAASolid::with_base(&mut ren_base);
-      ren.color(agg::Rgba8::black());
-      agg::render_scanlines(&mut ras, &mut ren);
+// Render the line to the image
+let mut ren = agg::RenderingScanlineAASolid::with_base(&mut ren_base);
+ren.color(agg::Rgba8::black());
+agg::render_scanlines(&mut ras, &mut ren);
 
-      // Save the image to a file
-      ren_base.to_file("little_black_triangle.png").unwrap();
-
+// Save the image to a file
+ren_base.to_file("little_black_triangle.png").unwrap();
+# }
+```
 
 # Outline AntiAlias Renderer
 
-       use agg::{Pixfmt,Rgb8,Rgba8,RenderingBase,DrawOutline};
-       use agg::{RendererOutlineAA,RasterizerOutlineAA};
-       let pix = Pixfmt::<Rgb8>::new(100,100);
-       let mut ren_base = agg::RenderingBase::new(pix);
-       ren_base.clear( Rgba8::new(255, 255, 255, 255) );
+```
+# #[cfg(feature = "std")]
+# {
+use agg::{Pixfmt,Rgb8,Rgba8,RenderingBase,DrawOutline};
+use agg::{RendererOutlineAA,RasterizerOutlineAA};
+let pix = Pixfmt::<Rgb8>::new(100,100);
+let mut ren_base = agg::RenderingBase::new(pix);
+ren_base.clear( Rgba8::new(255, 255, 255, 255) );
 
-       let mut ren = RendererOutlineAA::with_base(&mut ren_base);
-       ren.color(agg::Rgba8::new(102,77,26,255));
-       ren.width(3.0);
+let mut ren = RendererOutlineAA::with_base(&mut ren_base);
+ren.color(agg::Rgba8::new(102,77,26,255));
+ren.width(3.0);
 
-       let mut path = agg::Path::new();
-       path.move_to(10.0, 10.0);
-       path.line_to(50.0, 90.0);
-       path.line_to(90.0, 10.0);
+let mut path = agg::Path::new();
+path.move_to(10.0, 10.0);
+path.line_to(50.0, 90.0);
+path.line_to(90.0, 10.0);
 
-       let mut ras = RasterizerOutlineAA::with_renderer(&mut ren);
-       ras.add_path(&path);
-       ren_base.to_file("outline_aa.png").unwrap();
+let mut ras = RasterizerOutlineAA::with_renderer(&mut ren);
+ras.add_path(&path);
+ren_base.to_file("outline_aa.png").unwrap();
+# }
+```
 
 # Primitive Renderer
 
 Render for primitive shapes: lines, rectangles, and ellipses; filled or
    outlined.
 
-       use agg::{Pixfmt,Rgb8,Rgba8,RenderingBase,DrawOutline};
-       use agg::{RendererPrimitives,RasterizerOutline};
+```
+# #[cfg(feature = "std")]
+# {
+use agg::{Pixfmt,Rgb8,Rgba8,RenderingBase,DrawOutline};
+use agg::{RendererPrimitives,RasterizerOutline};
 
-       let pix = Pixfmt::<Rgb8>::new(100,100);
-       let mut ren_base = agg::RenderingBase::new(pix);
-       ren_base.clear( Rgba8::new(255, 255, 255, 255) );
+let pix = Pixfmt::<Rgb8>::new(100,100);
+let mut ren_base = agg::RenderingBase::new(pix);
+ren_base.clear( Rgba8::new(255, 255, 255, 255) );
 
-       let mut ren = RendererPrimitives::with_base(&mut ren_base);
-       ren.line_color(agg::Rgba8::new(0,0,0,255));
+let mut ren = RendererPrimitives::with_base(&mut ren_base);
+ren.line_color(agg::Rgba8::new(0,0,0,255));
 
-       let mut path = agg::Path::new();
-       path.move_to(10.0, 10.0);
-       path.line_to(50.0, 90.0);
-       path.line_to(90.0, 10.0);
+let mut path = agg::Path::new();
+path.move_to(10.0, 10.0);
+path.line_to(50.0, 90.0);
+path.line_to(90.0, 10.0);
 
-       let mut ras = RasterizerOutline::with_primitive(&mut ren);
-       ras.add_path(&path);
-       ren_base.to_file("primitive.png").unwrap();
+let mut ras = RasterizerOutline::with_primitive(&mut ren);
+ras.add_path(&path);
+ren_base.to_file("primitive.png").unwrap();
+# }
+```
 
 
 # Raw Pixel Manipulation

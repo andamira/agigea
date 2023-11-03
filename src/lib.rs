@@ -118,8 +118,8 @@ pub mod transform;
 #[doc(hidden)]
 #[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
 pub use {
-    alphamask::*, base::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, raster::*,
-    render::*, stroke::*, transform::*,
+    alphamask::*, base::*, clip::*, color::*, interp::*, outline::*, outline_aa::*, paths::*,
+    pixfmt::*, raster::*, render::*, stroke::*, transform::*,
 };
 
 /* std */
@@ -278,30 +278,35 @@ pub trait Pixel {
     ///
     /// If `color` [`is_transparent`] nothing is done
     ///
-    ///     use agg::{Source,Pixfmt,Rgb8,Rgba8,Pixel};
+    /// ```
+    /// # #[cfg(feature = "std")]
+    /// # {
+    /// use agg::{Source, Pixfmt, Rgb8, Rgba8, Pixel};
     ///
-    ///     let mut pix = Pixfmt::<Rgb8>::new(1,1);
-    ///     let black  = Rgba8::black();
-    ///     let white  = Rgba8::white();
-    ///     pix.copy_pixel(0,0,black);
-    ///     assert_eq!(pix.get((0,0)), black);
+    /// let mut pix = Pixfmt::<Rgb8>::new(1,1);
+    /// let black  = Rgba8::black();
+    /// let white  = Rgba8::white();
+    /// pix.copy_pixel(0,0,black);
+    /// assert_eq!(pix.get((0,0)), black);
     ///
-    ///     let (alpha, cover) = (255, 255); // Copy Pixel
-    ///     let color = Rgba8::new(255,255,255,alpha);
-    ///     pix.copy_or_blend_pix_with_cover((0,0), color, cover);
-    ///     assert_eq!(pix.get((0,0)), white);
+    /// let (alpha, cover) = (255, 255); // Copy Pixel
+    /// let color = Rgba8::new(255,255,255,alpha);
+    /// pix.copy_or_blend_pix_with_cover((0,0), color, cover);
+    /// assert_eq!(pix.get((0,0)), white);
     ///
-    ///     let (alpha, cover) = (255, 128); // Partial Coverage, Blend
-    ///     let color = Rgba8::new(255,255,255,alpha);
-    ///     pix.copy_pixel(0,0,black);
-    ///     pix.copy_or_blend_pix_with_cover((0,0), color, cover);
-    ///     assert_eq!(pix.get((0,0)), Rgba8::new(128,128,128,255));
+    /// let (alpha, cover) = (255, 128); // Partial Coverage, Blend
+    /// let color = Rgba8::new(255,255,255,alpha);
+    /// pix.copy_pixel(0,0,black);
+    /// pix.copy_or_blend_pix_with_cover((0,0), color, cover);
+    /// assert_eq!(pix.get((0,0)), Rgba8::new(128,128,128,255));
     ///
-    ///     let (alpha, cover) = (128, 255); // Partial Coverage, Blend
-    ///     let color = Rgba8::new(255,255,255,alpha);
-    ///     pix.copy_pixel(0,0,black);
-    ///     pix.copy_or_blend_pix_with_cover((0,0), color, cover);
-    ///     assert_eq!(pix.get((0,0)), Rgba8::new(128,128,128,255));
+    /// let (alpha, cover) = (128, 255); // Partial Coverage, Blend
+    /// let color = Rgba8::new(255,255,255,alpha);
+    /// pix.copy_pixel(0,0,black);
+    /// pix.copy_or_blend_pix_with_cover((0,0), color, cover);
+    /// assert_eq!(pix.get((0,0)), Rgba8::new(128,128,128,255));
+    /// # }
+    /// ```
     ///
     /// [`is_opaque`]: ../trait.Color.html#method.is_opaque
     /// [`is_transparent`]: ../trait.Color.html#method.is_transparent
@@ -478,7 +483,7 @@ pub mod all {
     #[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
     pub use super::{
         alphamask::*, base::*, clip::*, color::*, interp::*, outline::*, outline_aa::*, paths::*,
-        pixfmt::*, raster::*, render::*, stroke::*, transform::*, DrawOutLine, Render, Source,
+        pixfmt::*, raster::*, render::*, stroke::*, transform::*, DrawOutline, Render, Source,
         VertexSource,
     };
 
