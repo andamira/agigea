@@ -126,98 +126,91 @@
 //! [`render_scanlines_bin_solid`]: render/fn.render_scanlines_bin_solid.html
 
 #![warn(clippy::all)]
-// environment
+// nightly, environment
+#![cfg_attr(feature = "nightly", feature(doc_cfg))]
 #![cfg_attr(not(feature = "std"), no_std)]
 #[cfg(feature = "alloc")]
 extern crate alloc;
-
 #[cfg(feature = "alloc")]
 use alloc::vec::Vec;
 
 use core::fmt::Debug;
 
 #[doc(hidden)]
+#[cfg(all(feature = "std", feature = "freetype-rs"))]
 pub use freetype as ft;
 
-#[cfg(feature = "alloc")]
-pub mod alphamask;
 pub mod base;
-#[cfg(feature = "alloc")]
-pub mod clip;
 pub mod color;
+pub mod gallery;
+pub mod math;
+#[doc(hidden)]
+pub use {base::*, color::*};
+
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+pub mod alphamask;
+#[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+pub mod clip;
+#[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod line_interp;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod outline;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod outline_aa;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod paths;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod pixfmt;
 #[cfg(feature = "std")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod ppm;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod raster;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod render;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod stroke;
-#[cfg(feature = "std")]
-pub mod text;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod transform;
 
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub(crate) mod buffer;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub(crate) mod cell;
-pub mod math;
 #[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub(crate) mod scan;
 
-pub mod gallery;
+#[doc(hidden)]
+#[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+pub use {
+    alphamask::*, clip::*, line_interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*,
+    raster::*, render::*, stroke::*, transform::*,
+};
 
+#[cfg(all(feature = "std", feature = "freetype-rs"))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(all(feature = "alloc", feature = "freetype-rs")))
+)]
+pub mod text;
 #[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::alphamask::*;
-#[doc(hidden)]
-pub use crate::base::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::clip::*;
-#[doc(hidden)]
-pub use crate::color::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::line_interp::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::outline::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::outline_aa::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::paths::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::pixfmt::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::raster::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::render::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::stroke::*;
-#[doc(hidden)]
-#[cfg(feature = "std")]
+#[cfg(all(feature = "std", feature = "freetype-rs"))]
 pub use crate::text::*;
-#[doc(hidden)]
-#[cfg(feature = "alloc")]
-pub use crate::transform::*;
 
 #[cfg(feature = "alloc")]
 const POLY_SUBPIXEL_SHIFT: i64 = 8;
@@ -309,6 +302,7 @@ pub trait Pixel {
     fn bpp() -> usize;
     fn as_bytes(&self) -> &[u8];
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError>;
     fn width(&self) -> usize;
     fn height(&self) -> usize;

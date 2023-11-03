@@ -14,12 +14,18 @@ default = ["alloc"]
 
 std = ["alloc"]
 alloc = []
+nightly = []
+docsrs = ["nightly", "std", "freetype-rs"]
 
 [dependencies]
-freetype-rs = "0.32.0"
+freetype-rs = { version = "0.32.0", optional = true }
 # font-loader = "0.11.0"
 
 [dependencies.image]
 version = "0.24.7"
 default-features = false
 features = ["png", "gif", "pnm", "bmp", "jpeg"]
+
+[package.metadata.docs.rs]
+no-default-features = true
+features = ["docsrs"]

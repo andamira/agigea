@@ -287,6 +287,7 @@ where
         self.base.as_bytes()
     }
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     pub fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         self.base.to_file(filename)
     }
@@ -312,6 +313,7 @@ where
         self.base.as_bytes()
     }
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     pub fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         self.base.to_file(filename)
     }

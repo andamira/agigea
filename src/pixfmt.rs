@@ -156,6 +156,7 @@ where
     }
 
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     pub fn from_file<P: AsRef<Path>>(filename: P) -> Result<Self, image::ImageError> {
         let (buf, w, h) = crate::ppm::read_file(filename)?;
         Ok(Self { rbuf: RenderingBuffer::from_buf(buf, w, h, 3), phantom: PhantomData })
@@ -270,6 +271,7 @@ impl Pixel for Pixfmt<Rgba8> {
     }
 
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
@@ -325,6 +327,7 @@ impl Pixel for Pixfmt<Rgb8> {
     }
 
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
@@ -418,6 +421,7 @@ impl Pixel for Pixfmt<Rgba8pre> {
         }
     }
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
@@ -540,6 +544,7 @@ impl Pixel for Pixfmt<Rgba32> {
     }
 
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
@@ -592,6 +597,7 @@ impl Pixel for Pixfmt<Gray8> {
     }
 
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),
@@ -650,6 +656,7 @@ impl Pixel for PixfmtAlphaBlend<'_, Pixfmt<Rgb8>, Gray8> {
         self.ren.pixf.as_bytes()
     }
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     fn to_file<P: AsRef<Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         crate::ppm::write_file(
             self.as_bytes(),

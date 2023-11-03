@@ -23,6 +23,7 @@ where
         self.pixf.as_bytes()
     }
     #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     pub fn to_file<P: AsRef<std::path::Path>>(&self, filename: P) -> Result<(), image::ImageError> {
         self.pixf.to_file(filename)
     }
