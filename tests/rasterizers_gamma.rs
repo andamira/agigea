@@ -1,24 +1,24 @@
-
-extern crate agg;
 use agg::Render;
 
-fn rgb64(r: f64, g: f64,b: f64,a: f64) -> agg::Rgba8 {
-    agg::Rgba8::new((r * 255.0).round() as u8,
-                    (g * 255.0).round() as u8,
-                    (b * 255.0).round() as u8,
-                    (a * 255.0).round() as u8)
+fn rgb64(r: f64, g: f64, b: f64, a: f64) -> agg::Rgba8 {
+    agg::Rgba8::new(
+        (r * 255.0).round() as u8,
+        (g * 255.0).round() as u8,
+        (b * 255.0).round() as u8,
+        (a * 255.0).round() as u8,
+    )
 }
 
 #[test]
 fn rasterizers_gamma() {
-    let (w,h) = (500,330);
+    let (w, h) = (500, 330);
 
-    let m_x = [100.+120., 369.+120., 143.+120.];
-    let m_y = [60.,       170.,      310.0];
+    let m_x = [100. + 120., 369. + 120., 143. + 120.];
+    let m_y = [60., 170., 310.0];
 
-    let pixf = agg::Pixfmt::<agg::Rgb8>::new(w,h);
+    let pixf = agg::Pixfmt::<agg::Rgb8>::new(w, h);
     let mut ren_base = agg::RenderingBase::new(pixf);
-    ren_base.clear( agg::Rgba8::new(255, 255, 255, 255) );
+    ren_base.clear(agg::Rgba8::new(255, 255, 255, 255));
 
     let gamma = 1.0;
     let alpha = 0.5;
@@ -34,10 +34,10 @@ fn rasterizers_gamma() {
         path.line_to(m_x[1], m_y[1]);
         path.line_to(m_x[2], m_y[2]);
         path.close_polygon();
-        ren_aa.color( rgb64(0.7, 0.5, 0.1, alpha));
+        ren_aa.color(rgb64(0.7, 0.5, 0.1, alpha));
         ras.add_path(&path);
         // Power Function
-        ras.gamma( |v| ( v.powf(gamma * 2.0)) );
+        ras.gamma(|v| (v.powf(gamma * 2.0)));
         agg::render_scanlines(&mut ras, &mut ren_aa);
     }
 
@@ -50,12 +50,16 @@ fn rasterizers_gamma() {
         path.line_to(m_x[1] - 200., m_y[1]);
         path.line_to(m_x[2] - 200., m_y[2]);
         path.close_polygon();
-        ren_bin.color( rgb64(0.1, 0.5, 0.7, alpha) );
+        ren_bin.color(rgb64(0.1, 0.5, 0.7, alpha));
         ras.add_path(&path);
         // Threshold
-        ras.gamma( |v| if v < gamma { 0.0 } else { 1.0 }  );
+        ras.gamma(|v| if v < gamma { 0.0 } else { 1.0 });
         agg::render_scanlines(&mut ras, &mut ren_bin);
     }
     ren_base.to_file("tests/tmp/rasterizers_gamma.png").unwrap();
-    assert_eq!(agg::ppm::img_diff("tests/tmp/rasterizers_gamma.png", "images/rasterizers_gamma.png").unwrap(), true);
+    assert_eq!(
+        agg::ppm::img_diff("tests/tmp/rasterizers_gamma.png", "images/rasterizers_gamma.png")
+            .unwrap(),
+        true
+    );
 }

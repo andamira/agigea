@@ -1,4 +1,3 @@
-
 // #[test] // FIXME
 // fn t23_font() {
 //     let lib = agg::ft::Library::init().unwrap();

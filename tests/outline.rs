@@ -1,13 +1,13 @@
 #[test]
 fn t24_outline_basic_render() {
-    use agg::{Pixfmt,Rgb8,Rgba8};
-    use agg::{RendererPrimitives,RasterizerOutline};
-    let pix = Pixfmt::<Rgb8>::new(100,100);
+    use agg::{Pixfmt, Rgb8, Rgba8};
+    use agg::{RasterizerOutline, RendererPrimitives};
+    let pix = Pixfmt::<Rgb8>::new(100, 100);
     let mut ren_base = agg::RenderingBase::new(pix);
-    ren_base.clear( Rgba8::new(255, 255, 255, 255) );
+    ren_base.clear(Rgba8::new(255, 255, 255, 255));
 
     let mut ren = RendererPrimitives::with_base(&mut ren_base);
-    ren.line_color(agg::Rgba8::new(0,0,0,255));
+    ren.line_color(agg::Rgba8::new(0, 0, 0, 255));
 
     let mut path = agg::Path::new();
     path.move_to(10.0, 10.0);
