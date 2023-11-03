@@ -504,9 +504,9 @@ impl Pixel for Pixfmt<Rgba32> {
     fn set<C: Color>(&mut self, id: (usize, usize), c: C) {
         let c = Rgba32::from_trait(c);
         assert!(!self.rbuf.data.is_empty());
-        self.rbuf[id][ 0.. 4].copy_from_slice(&c.r.to_ne_bytes());
-        self.rbuf[id][ 4.. 8].copy_from_slice(&c.g.to_ne_bytes());
-        self.rbuf[id][ 8..12].copy_from_slice(&c.b.to_ne_bytes());
+        self.rbuf[id][0..4].copy_from_slice(&c.r.to_ne_bytes());
+        self.rbuf[id][4..8].copy_from_slice(&c.g.to_ne_bytes());
+        self.rbuf[id][8..12].copy_from_slice(&c.b.to_ne_bytes());
         self.rbuf[id][12..16].copy_from_slice(&c.a.to_ne_bytes());
     }
     fn bpp() -> usize {

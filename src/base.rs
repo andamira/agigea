@@ -4,7 +4,6 @@ use crate::{color::*, Color, Pixel, Source};
 use core::cmp::{max, min};
 
 /// Rendering Base
-///
 #[derive(Debug)]
 pub struct RenderingBase<T> {
     /// Pixel Format

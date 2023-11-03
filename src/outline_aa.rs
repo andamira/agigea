@@ -2,7 +2,6 @@
 //!
 //! # Example
 //!
-//!
 //!     use agg::{Pixfmt,Rgb8,Rgba8,DrawOutline};
 //!     use agg::{RendererOutlineAA,RasterizerOutlineAA};
 //!
@@ -46,6 +45,8 @@ use crate::{
     POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,
 };
 use alloc::{vec, vec::Vec};
+#[cfg(feature = "no_std")]
+use devela::ops::FloatExt;
 
 /// Outline Rasterizer with Anti-Aliasing
 pub struct RasterizerOutlineAA<'a, T>

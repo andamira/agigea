@@ -7,8 +7,6 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #[cfg(feature = "alloc")]
 extern crate alloc;
-#[cfg(feature = "alloc")]
-use alloc::vec::Vec;
 
 // safeguarding: environment, safety
 #[cfg(all(feature = "std", feature = "no_std"))]
@@ -16,18 +14,12 @@ compile_error!("You can't enable the `std` and `no_std` features at the same tim
 #[cfg(all(feature = "safe", feature = "unsafe"))]
 compile_error!("You can't enable `safe` and `unsafe*` features at the same time.");
 
-use core::fmt::Debug;
-
 #[doc(hidden)]
 #[cfg(all(feature = "std", feature = "freetype-rs"))]
 pub use freetype as ft;
 
-pub mod base;
-pub mod color;
 pub mod gallery;
 pub mod math;
-#[doc(hidden)]
-pub use {base::*, color::*};
 
 /* alloc */
 
@@ -42,46 +34,91 @@ pub(crate) mod cell;
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub(crate) mod scan;
 
-// public
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+/* std || no_std + alloc */
+
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod alphamask;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
+pub mod base; // uses ::color
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod clip;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
+pub mod color;
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod interp;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod outline;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod outline_aa;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod paths;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
-pub mod pixfmt;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
+pub mod pixfmt; // uses color
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod raster;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod render;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod stroke;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub mod transform;
 
 #[doc(hidden)]
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
 pub use {
-    alphamask::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*, raster::*,
+    alphamask::*, base::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, raster::*,
     render::*, stroke::*, transform::*,
 };
 
@@ -115,18 +152,22 @@ const POLY_MR_SUBPIXEL_SHIFT: i64 = 4;
 const MAX_HALF_WIDTH: usize = 64;
 
 /// Source of vertex points
-#[cfg(feature = "alloc")]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub trait VertexSource {
     /// Rewind the vertex source (unused)
     fn rewind(&self) {}
     /// Get values from the source
     ///
     /// This could be turned into an iterator
-    fn xconvert(&self) -> Vec<Vertex<f64>>;
+    fn xconvert(&self) -> alloc::vec::Vec<Vertex<f64>>;
 }
 
 /// Access Color properties and compoents
-pub trait Color: Debug + Copy {
+pub trait Color: core::fmt::Debug + Copy {
     /// Get red value [0..=1] as f64
     fn red(&self) -> f64;
     /// Get green value [0..=1] as f64
@@ -155,7 +196,11 @@ pub trait Color: Debug + Copy {
     fn is_premultiplied(&self) -> bool;
 }
 /// Render scanlines to Image
-#[cfg(feature = "alloc")]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub trait Render {
     /// Render a single scanlines to the image
     fn render(&mut self, data: &RenderData);
@@ -183,6 +228,11 @@ pub trait Rasterize {
 */
 
 /// Access Pixel source color
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub trait Source {
     fn get(&self, id: (usize, usize)) -> Rgba8;
 }
@@ -391,7 +441,11 @@ pub(crate) trait RenderOutline {
 }
 /// Functions for Drawing Outlines
 //pub trait DrawOutline: Lines + AccurateJoins + SetColor {}
-#[cfg(feature = "alloc")]
+#[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
+#[cfg_attr(
+    feature = "nightly",
+    doc(cfg(any(feature = "std", all(feature = "no_std", feature = "alloc"))))
+)]
 pub trait DrawOutline {
     /// Set the current Color
     fn color<C: Color>(&mut self, color: C);
@@ -418,16 +472,14 @@ pub(crate) trait DistanceInterpolator {
 /// All items are flat re-exported here.
 pub mod all {
     #[doc(inline)]
-    pub use super::{
-        base::*, color::*, gallery::*, math::*, Color, DrawOutline, Pixel, Render, Source,
-        VertexSource,
-    };
+    pub use super::{gallery::*, math::*, Color, Pixel};
 
     #[doc(inline)]
-    #[cfg(feature = "alloc")]
+    #[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]
     pub use super::{
-        alphamask::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*,
-        raster::*, render::*, stroke::*, transform::*,
+        alphamask::*, base::*, clip::*, color::*, interp::*, outline::*, outline_aa::*, paths::*,
+        pixfmt::*, raster::*, render::*, stroke::*, transform::*, DrawOutLine, Render, Source,
+        VertexSource,
     };
 
     #[doc(inline)]

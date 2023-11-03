@@ -2,6 +2,8 @@
 
 use crate::cell::RasterizerCell;
 use core::cmp::PartialOrd;
+#[cfg(feature = "no_std")]
+use devela::ops::FloatExt;
 
 /// Rectangle
 #[derive(Debug, Copy, Clone)]

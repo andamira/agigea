@@ -6,6 +6,8 @@ use crate::{
 };
 use alloc::vec::Vec;
 use core::cmp::{max, min};
+#[cfg(feature = "no_std")]
+use devela::ops::FloatExt;
 
 struct RasConvInt {}
 impl RasConvInt {

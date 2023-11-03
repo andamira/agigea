@@ -1,6 +1,8 @@
 //! Colors
 
 use crate::{math::multiply_u8, Color};
+#[cfg(feature = "no_std")]
+use devela::ops::FloatExt;
 
 /// Convert an f64 [0,1] component to a u8 [0,255] component
 fn cu8(v: f64) -> u8 {

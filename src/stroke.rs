@@ -27,6 +27,8 @@ use crate::{
 };
 use alloc::{vec, vec::Vec};
 use core::f64::consts::PI;
+#[cfg(feature = "no_std")]
+use devela::ops::FloatExt;
 
 /// Line End or Cap Style
 #[derive(Debug, Copy, Clone, PartialEq)]
