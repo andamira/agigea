@@ -2,15 +2,12 @@
 
 use crate::{
     base::RenderingBase,
-    clip::Rectangle,
-    clip::{BOTTOM, INSIDE, LEFT, RIGHT, TOP},
+    clip::{Rectangle, BOTTOM, INSIDE, LEFT, RIGHT, TOP},
     color::Rgba8,
-    line_interp::line_mr,
-    line_interp::LineParameters,
+    interp::{line_mr, LineParameters},
     outline::Subpixel,
     pixfmt::Pixfmt,
-    raster::len_i64_xy,
-    raster::RasterizerScanline,
+    raster::{len_i64_xy, RasterizerScanline},
     scan::ScanlineU8,
     Color, DrawOutline, Pixel, Render, Rgb8, Source, Transform, VertexSource, MAX_HALF_WIDTH,
     POLY_MR_SUBPIXEL_SHIFT, POLY_SUBPIXEL_MASK, POLY_SUBPIXEL_SCALE, POLY_SUBPIXEL_SHIFT,

@@ -37,7 +37,7 @@ use crate::{
     base::RenderingBase,
     clip::Rectangle,
     color::Rgba8,
-    line_interp::{DistanceInterpolator0, DistanceInterpolator00, DrawVars, LineParameters},
+    interp::{DistanceInterpolator0, DistanceInterpolator00, DrawVars, LineParameters},
     paths::{PathCommand, Vertex},
     raster::{len_i64, len_i64_xy},
     render::{clip_line_segment, LINE_MAX_LENGTH},

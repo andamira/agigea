@@ -1,14 +1,20 @@
 //
 #![doc = include_str!("./Lib.md")]
-
 #![warn(clippy::all)]
-// nightly, environment
+// nightly, safety, environment
 #![cfg_attr(feature = "nightly", feature(doc_cfg))]
+#![cfg_attr(feature = "safe", forbid(unsafe_code))]
 #![cfg_attr(not(feature = "std"), no_std)]
 #[cfg(feature = "alloc")]
 extern crate alloc;
 #[cfg(feature = "alloc")]
 use alloc::vec::Vec;
+
+// safeguarding: environment, safety
+#[cfg(all(feature = "std", feature = "no_std"))]
+compile_error!("You can't enable the `std` and `no_std` features at the same time.");
+#[cfg(all(feature = "safe", feature = "unsafe"))]
+compile_error!("You can't enable `safe` and `unsafe*` features at the same time.");
 
 use core::fmt::Debug;
 
@@ -74,19 +80,19 @@ pub(crate) mod scan;
 #[cfg(feature = "alloc")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub use {
-    alphamask::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*,
-    raster::*, render::*, stroke::*, transform::*,
+    alphamask::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*, raster::*,
+    render::*, stroke::*, transform::*,
 };
 
 #[cfg(all(feature = "std", feature = "freetype-rs"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(all(feature = "alloc", feature = "freetype-rs")))
+    doc(cfg(all(feature = "std", feature = "freetype-rs")))
 )]
 pub mod text;
 #[doc(hidden)]
 #[cfg(all(feature = "std", feature = "freetype-rs"))]
-pub use crate::text::*;
+pub use text::*;
 
 #[cfg(feature = "alloc")]
 const POLY_SUBPIXEL_SHIFT: i64 = 8;

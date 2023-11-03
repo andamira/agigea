@@ -14,8 +14,15 @@ default = ["alloc"]
 
 std = ["alloc"]
 alloc = []
+no_std = []
+safe = []
+unsafe = []
 nightly = []
+
+text = ["std", "freetype-rs"]
+
 docsrs = ["nightly", "std", "freetype-rs"]
+
 
 [dependencies]
 freetype-rs = { version = "0.32.0", optional = true }
