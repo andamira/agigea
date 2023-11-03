@@ -31,7 +31,7 @@ pub mod alphamask;
 pub mod clip;
 #[cfg(feature = "alloc")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
-pub mod line_interp;
+pub mod interp;
 #[cfg(feature = "alloc")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod outline;
@@ -74,7 +74,7 @@ pub(crate) mod scan;
 #[cfg(feature = "alloc")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub use {
-    alphamask::*, clip::*, line_interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*,
+    alphamask::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*,
     raster::*, render::*, stroke::*, transform::*,
 };
 
