@@ -1,1 +1,0 @@
-http://projects.tuxee.net/cl-vectors/section-the-cl-aa-algorithm
