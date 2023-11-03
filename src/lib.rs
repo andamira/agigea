@@ -399,3 +399,23 @@ pub(crate) trait DistanceInterpolator {
     fn dec_x(&mut self, dy: i64);
     fn dec_y(&mut self, dx: i64);
 }
+
+/// All items are flat re-exported here.
+pub mod all {
+    #[doc(inline)]
+    pub use super::{
+        base::*, color::*, gallery::*, math::*, Color, DrawOutline, Pixel, Render, Source,
+        VertexSource,
+    };
+
+    #[doc(inline)]
+    #[cfg(feature = "alloc")]
+    pub use super::{
+        alphamask::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*, ppm::*,
+        raster::*, render::*, stroke::*, text::*, transform::*,
+    };
+
+    #[doc(inline)]
+    #[cfg(all(feature = "std", feature = "freetype-rs"))]
+    pub use super::text::*;
+}
