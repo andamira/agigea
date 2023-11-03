@@ -185,12 +185,10 @@ impl Source for Pixfmt<Rgba32> {
     fn get(&self, id: (usize, usize)) -> Rgba8 {
         //let n = (id.0 + id.1 * self.rbuf.width) * Pixfmt::<Rgba32>::bpp();
         let p = &self.rbuf[id];
-        let red: f32 = unsafe { core::mem::transmute::<[u8; 4], f32>([p[0], p[1], p[2], p[3]]) };
-        let green: f32 = unsafe { core::mem::transmute::<[u8; 4], f32>([p[4], p[5], p[6], p[7]]) };
-        let blue: f32 = unsafe { core::mem::transmute::<[u8; 4], f32>([p[8], p[9], p[10], p[11]]) };
-        let alpha: f32 =
-            unsafe { core::mem::transmute::<[u8; 4], f32>([p[12], p[13], p[14], p[15]]) };
-
+        let red: f32 = f32::from_ne_bytes([p[0], p[1], p[2], p[3]]);
+        let green: f32 = f32::from_ne_bytes([p[4], p[5], p[6], p[7]]);
+        let blue: f32 = f32::from_ne_bytes([p[8], p[9], p[10], p[11]]);
+        let alpha: f32 = f32::from_ne_bytes([p[12], p[13], p[14], p[15]]);
         let c = Rgba32::new(red, green, blue, alpha);
         Rgba8::from_trait(c)
     }
@@ -506,20 +504,10 @@ impl Pixel for Pixfmt<Rgba32> {
     fn set<C: Color>(&mut self, id: (usize, usize), c: C) {
         let c = Rgba32::from_trait(c);
         assert!(!self.rbuf.data.is_empty());
-        let red: [u8; 4] = c.r.to_ne_bytes();
-        let green: [u8; 4] = c.g.to_ne_bytes();
-        let blue: [u8; 4] = c.b.to_ne_bytes();
-        let alpha: [u8; 4] = c.a.to_ne_bytes();
-
-        for _ in 0..4 {
-            self.rbuf[id][..4].copy_from_slice(&red[..4]);
-            self.rbuf[id][4..(4 + 4)].copy_from_slice(&green[..4]);
-            self.rbuf[id][8..(4 + 8)].copy_from_slice(&blue[..4]);
-            self.rbuf[id][12..(4 + 12)].copy_from_slice(&alpha[..4]);
-        }
-        //self.rbuf[id][ 4.. 8] = unsafe { core::mem::transmute(c.g) };
-        //self.rbuf[id][ 8..12] = unsafe { core::mem::transmute(c.b) };
-        //self.rbuf[id][12..16] = unsafe { core::mem::transmute(c.a) };
+        self.rbuf[id][ 0.. 4].copy_from_slice(&c.r.to_ne_bytes());
+        self.rbuf[id][ 4.. 8].copy_from_slice(&c.g.to_ne_bytes());
+        self.rbuf[id][ 8..12].copy_from_slice(&c.b.to_ne_bytes());
+        self.rbuf[id][12..16].copy_from_slice(&c.a.to_ne_bytes());
     }
     fn bpp() -> usize {
         4 * 4
