@@ -1,7 +1,6 @@
 /// Interpolate a value between two end points using fixed point math
 ///
 /// See agg_color_rgba.h:454 of agg version 2.4
-///
 pub fn lerp_u8(p: u8, q: u8, a: u8) -> u8 {
     let base_shift = 8;
     let base_msb = 1 << (base_shift - 1);
@@ -22,9 +21,11 @@ pub fn prelerp_u8(p: u8, q: u8, a: u8) -> u8 {
 /// Multiply two u8 values using fixed point math
 ///
 /// See agg_color_rgba.h:395
-/// https://sestevenson.wordpress.com/2009/08/19/rounding-in-fixed-point-number-conversions/
-/// https://stackoverflow.com/questions/10067510/fixed-point-arithmetic-in-c-programming
-/// http://x86asm.net/articles/fixed-point-arithmetic-and-tricks/
+///
+/// - <https://sestevenson.wordpress.com/2009/08/19/rounding-in-fixed-point-number-conversions/>
+/// - <https://stackoverflow.com/questions/10067510/fixed-point-arithmetic-in-c-programming>
+/// - <http://x86asm.net/articles/fixed-point-arithmetic-and-tricks/>
+///
 /// Still not sure where the value is added and shifted multiple times
 pub fn multiply_u8(a: u8, b: u8) -> u8 {
     let base_shift = 8;

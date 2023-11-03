@@ -75,32 +75,28 @@ where
 
 /// Inside Region
 ///
-/// See https://en.wikipedia.org/wiki/Liang-Barsky_algorithm
-/// See https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm
+/// See [Liang Barsky](https://en.wikipedia.org/wiki/Liang-Barsky_algorithm)
+/// and [Cyrus Beck](https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm).
 pub const INSIDE: u8 = 0b0000;
 /// Left of Region
 ///
 /// See [Liang Barsky](https://en.wikipedia.org/wiki/Liang-Barsky_algorithm)
-///
-/// See [Cyrus Beck](https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm)
+/// and [Cyrus Beck](https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm).
 pub const LEFT: u8 = 0b0000_0001;
 /// Right of Region
 ///
 /// See [Liang Barsky](https://en.wikipedia.org/wiki/Liang-Barsky_algorithm)
-///
-/// See [Cyrus Beck](https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm)
+/// and [Cyrus Beck](https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm).
 pub const RIGHT: u8 = 0b0000_0010;
 /// Below Region
 ///
 /// See [Liang Barsky](https://en.wikipedia.org/wiki/Liang-Barsky_algorithm)
-///
-/// See [Cyrus Beck](https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm)
+/// and [Cyrus Beck](https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm).
 pub const BOTTOM: u8 = 0b0000_0100;
 /// Above Region
 ///
 /// See [Liang Barsky](https://en.wikipedia.org/wiki/Liang-Barsky_algorithm)
-///
-/// See [Cyrus Beck](https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm)
+/// and [Cyrus Beck](https://en.wikipedia.org/wiki/Cyrus-Beck_algorithm).
 pub const TOP: u8 = 0b0000_1000;
 
 /// Determine the loaiton of a point to a broken-down rectangle or range

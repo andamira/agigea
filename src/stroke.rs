@@ -57,8 +57,7 @@ pub enum InnerJoin {
 
 /// Stroke for Paths and Vertex Sources
 ///
-/// **Missing:** fn shorten() [private]
-///
+/// **Missing:** fn shorten() (private)
 #[derive(Debug)]
 pub struct Stroke<T: VertexSource> {
     /// Source of Verticies

@@ -1321,7 +1321,7 @@ impl LineParameters {
     /// New point:
     ///   (x2 + dy, y2 - dx)
     ///
-    /// (Bisectrix)[https://en.wikipedia.org/wiki/Bisection]
+    /// - [Bisectrix](https://en.wikipedia.org/wiki/Bisection)
     ///
     pub fn fix_degenerate_bisectrix_end(&self, x: i64, y: i64) -> (i64, i64) {
         let d = self.fix_degenerate_bisectrix_setup(x, y);
@@ -1339,7 +1339,7 @@ impl LineParameters {
     /// New point:
     ///   (x1 + dy, y1 - dx)
     ///
-    /// (Bisectrix)[https://en.wikipedia.org/wiki/Bisection]
+    /// - [Bisectrix](https://en.wikipedia.org/wiki/Bisection)
     ///
     pub fn fix_degenerate_bisectrix_start(&self, x: i64, y: i64) -> (i64, i64) {
         let d = self.fix_degenerate_bisectrix_setup(x, y);

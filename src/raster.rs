@@ -19,8 +19,8 @@ impl RasConvInt {
 
 /// Winding / Filling Rule
 ///
-/// See (Non-Zero Filling Rule)[https://en.wikipedia.org/wiki/Nonzero-rule] and
-/// (Even-Odd Filling)[https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule]
+/// See [Non-Zero Filling Rule](https://en.wikipedia.org/wiki/Nonzero-rule) and
+/// [Even-Odd Filling](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)
 #[derive(Debug, Default, PartialEq, Copy, Clone)]
 pub enum FillingRule {
     #[default]

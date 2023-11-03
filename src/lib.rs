@@ -112,21 +112,21 @@ pub trait VertexSource {
 
 /// Access Color properties and compoents
 pub trait Color: Debug + Copy {
-    /// Get red value [0,1] as f64
+    /// Get red value [0..=1] as f64
     fn red(&self) -> f64;
-    /// Get green value [0,1] as f64
+    /// Get green value [0..=1] as f64
     fn green(&self) -> f64;
-    /// Get blue value [0,1] as f64
+    /// Get blue value [0..=1] as f64
     fn blue(&self) -> f64;
-    /// Get alpha value [0,1] as f64
+    /// Get alpha value [0..=1] as f64
     fn alpha(&self) -> f64;
-    /// Get red value [0,255] as u8
+    /// Get red value [0..=255] as u8
     fn red8(&self) -> u8;
-    /// Get green value [0,255] as u8
+    /// Get green value [0..=255] as u8
     fn green8(&self) -> u8;
-    /// Get blue value [0,255] as u8
+    /// Get blue value [0..=255] as u8
     fn blue8(&self) -> u8;
-    /// Get alpha value [0,255] as u8
+    /// Get alpha value [0..=255] as u8
     fn alpha8(&self) -> u8;
     /// Return if the color is completely transparent, alpha = 0.0
     fn is_transparent(&self) -> bool {
