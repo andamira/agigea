@@ -29,6 +29,20 @@ pub mod math;
 #[doc(hidden)]
 pub use {base::*, color::*};
 
+/* alloc */
+
+// private
+#[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+pub(crate) mod buffer;
+#[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+pub(crate) mod cell;
+#[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+pub(crate) mod scan;
+
+// public
 #[cfg(feature = "alloc")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod alphamask;
@@ -50,9 +64,6 @@ pub mod paths;
 #[cfg(feature = "alloc")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod pixfmt;
-#[cfg(feature = "std")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
-pub mod ppm;
 #[cfg(feature = "alloc")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod raster;
@@ -66,16 +77,6 @@ pub mod stroke;
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
 pub mod transform;
 
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
-pub(crate) mod buffer;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
-pub(crate) mod cell;
-#[cfg(feature = "alloc")]
-#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
-pub(crate) mod scan;
-
 #[doc(hidden)]
 #[cfg(feature = "alloc")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
@@ -83,6 +84,14 @@ pub use {
     alphamask::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*, raster::*,
     render::*, stroke::*, transform::*,
 };
+
+/* std */
+
+#[cfg(feature = "std")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
+pub mod ppm;
+
+/* std & freetype-rs */
 
 #[cfg(all(feature = "std", feature = "freetype-rs"))]
 #[cfg_attr(
@@ -417,9 +426,13 @@ pub mod all {
     #[doc(inline)]
     #[cfg(feature = "alloc")]
     pub use super::{
-        alphamask::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*, ppm::*,
-        raster::*, render::*, stroke::*, text::*, transform::*,
+        alphamask::*, clip::*, interp::*, outline::*, outline_aa::*, paths::*, pixfmt::*,
+        raster::*, render::*, stroke::*, transform::*,
     };
+
+    #[doc(inline)]
+    #[cfg(feature = "std")]
+    pub use super::ppm::*;
 
     #[doc(inline)]
     #[cfg(all(feature = "std", feature = "freetype-rs"))]
