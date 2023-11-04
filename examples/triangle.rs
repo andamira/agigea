@@ -1,10 +1,9 @@
 use agigea::{
-    ppm, render_scanlines, Pixfmt, RasterizerScanline, Render, RenderingBase,
-    RenderingScanlineAASolid, Rgb8, Rgba8,
+    render_scanlines, Pixfmt, RasterizerScanline, Render, RenderingBase, RenderingScanlineAASolid,
+    Rgb8, Rgba8,
 };
 
-#[test]
-fn t00_example() {
+fn main() {
     // Create a blank image 10x10 pixels
     let pix = Pixfmt::<Rgb8>::new(100, 100);
     let mut ren_base = RenderingBase::new(pix);
@@ -22,10 +21,5 @@ fn t00_example() {
     render_scanlines(&mut ras, &mut ren);
 
     // Save the image to a file
-    ren_base.to_file("tests/std/tmp/little_black_triangle.png").unwrap();
-    assert!(ppm::img_diff(
-        "tests/std/tmp/little_black_triangle.png",
-        "tests/images/little_black_triangle.png"
-    )
-    .unwrap());
+    ren_base.to_file("examples/out/little_black_triangle.png").unwrap();
 }
