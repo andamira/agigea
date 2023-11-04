@@ -105,7 +105,7 @@ fn lion_outline_width1() {
     ren.to_file("tests/std/tmp/lion_outline_width1.png").unwrap();
     assert!(agigea::ppm::img_diff(
         "tests/std/tmp/lion_outline_width1.png",
-        "images/lion_outline_width1.png"
+        "tests/images/lion_outline_width1.png"
     )
     .unwrap());
 }

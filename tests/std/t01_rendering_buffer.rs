@@ -31,7 +31,8 @@ fn t01_rendering_buffer() {
 
     pix.to_file("tests/std/tmp/agg_test_01.png").unwrap();
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_01.png", "images/agg_test_01.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/agg_test_01.png", "tests/images/agg_test_01.png")
+            .unwrap(),
         true
     );
 }

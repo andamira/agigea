@@ -27,7 +27,8 @@ fn t14_with_gamma() {
     ren.to_file("tests/std/tmp/agg_test_14.png").unwrap();
 
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_14.png", "images/agg_test_14.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/agg_test_14.png", "tests/images/agg_test_14.png")
+            .unwrap(),
         true
     );
 }

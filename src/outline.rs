@@ -18,12 +18,12 @@
 //!
 //! let mut ras = RasterizerOutline::with_primitive(&mut ren);
 //! ras.add_path(&path);
-//! ren_base.to_file("primitive.png").unwrap();
+//! ren_base.to_file("tests/std/tmp/primitive.png").unwrap();
 //! ```
 //!
 //! The above code produces:
 //!
-//! ![Output](https://raw.githubusercontent.com/andamira/agigea/master/images/primitive.png)
+//! ![Output](https://raw.githubusercontent.com/andamira/agigea/master/tests/images/primitive.png)
 
 use crate::{
     base::RenderingBase, color::Rgba8, paths::PathCommand, render::BresehamInterpolator, Color,

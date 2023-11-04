@@ -43,7 +43,8 @@ fn t15_path_stroke() {
     ren_base.to_file("tests/std/tmp/agg_test_15.png").unwrap();
 
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_15.png", "images/agg_test_15.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/agg_test_15.png", "tests/images/agg_test_15.png")
+            .unwrap(),
         true
     );
 }

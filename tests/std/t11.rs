@@ -26,7 +26,8 @@ fn t11_full() {
     ren.to_file("tests/std/tmp/agg_test_11.png").unwrap();
 
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_11.png", "images/agg_test_11.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/agg_test_11.png", "tests/images/agg_test_11.png")
+            .unwrap(),
         true
     );
 }

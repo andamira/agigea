@@ -27,11 +27,11 @@
 //! let mut ras = RasterizerOutlineAA::with_renderer(&mut ren);
 //! ras.round_cap(true);
 //! ras.add_path(&path);
-//! ren_base.to_file("outline_aa.png").unwrap();
+//! ren_base.to_file("tests/std/tmp/outline_aa.png").unwrap();
 //! ```
 //! The above code will produce:
 //!
-//! ![Output](https://raw.githubusercontent.com/andamira/agigea/master/images/outline_aa.png)
+//! ![Output](https://raw.githubusercontent.com/andamira/agigea/master/tests/images/outline_aa.png)
 //!
 
 use crate::{

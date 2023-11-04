@@ -58,6 +58,7 @@ fn rasterizers() {
     }
     ren_base.to_file("tests/std/tmp/rasterizers.png").unwrap();
     assert!(
-        agigea::ppm::img_diff("tests/std/tmp/rasterizers.png", "images/rasterizers.png").unwrap()
+        agigea::ppm::img_diff("tests/std/tmp/rasterizers.png", "tests/images/rasterizers.png")
+            .unwrap()
     );
 }

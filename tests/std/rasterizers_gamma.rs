@@ -60,7 +60,7 @@ fn rasterizers_gamma() {
     assert_eq!(
         agigea::ppm::img_diff(
             "tests/std/tmp/rasterizers_gamma.png",
-            "images/rasterizers_gamma.png"
+            "tests/images/rasterizers_gamma.png"
         )
         .unwrap(),
         true

@@ -43,7 +43,7 @@ fn component_rendering_255() {
     assert_eq!(
         agigea::ppm::img_diff(
             "tests/std/tmp/component_rendering_255.png",
-            "images/component_rendering_255.png"
+            "tests/images/component_rendering_255.png"
         )
         .unwrap(),
         true

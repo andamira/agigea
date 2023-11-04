@@ -58,7 +58,7 @@ ren.color(Rgba8::black());
 render_scanlines(&mut ras, &mut ren);
 
 // Save the image to a file
-ren_base.to_file("little_black_triangle.png").unwrap();
+ren_base.to_file("tests/std/tmp/little_black_triangle.png").unwrap();
 # }
 ```
 
@@ -86,7 +86,7 @@ path.line_to(90.0, 10.0);
 
 let mut ras = RasterizerOutlineAA::with_renderer(&mut ren);
 ras.add_path(&path);
-ren_base.to_file("outline_aa.png").unwrap();
+ren_base.to_file("tests/std/tmp/outline_aa.png").unwrap();
 # }
 ```
 
@@ -117,7 +117,7 @@ path.line_to(90.0, 10.0);
 
 let mut ras = RasterizerOutline::with_primitive(&mut ren);
 ras.add_path(&path);
-ren_base.to_file("primitive.png").unwrap();
+ren_base.to_file("tests/std/tmp/primitive.png").unwrap();
 # }
 ```
 

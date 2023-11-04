@@ -19,5 +19,5 @@ fn t23_font() {
     ren_base.blend_hline(50, 57, 50, agigea::Rgba8::new(255, 0, 0, 255), 255);
 
     ren_base.to_file("tests/std/tmp/font.png").unwrap();
-    assert!(agigea::ppm::img_diff("tests/std/tmp/font.png", "images/font.png").unwrap());
+    assert!(agigea::ppm::img_diff("tests/std/tmp/font.png", "tests/images/font.png").unwrap());
 }

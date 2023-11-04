@@ -30,7 +30,8 @@ fn t03_solar_specturm() {
     }
     pix.to_file("tests/std/tmp/agg_test_03.png").unwrap();
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_03.png", "images/agg_test_03.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/agg_test_03.png", "tests/images/agg_test_03.png")
+            .unwrap(),
         true
     );
 }

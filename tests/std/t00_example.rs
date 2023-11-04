@@ -22,7 +22,7 @@ fn t00_example() {
     ren_base.to_file("tests/std/tmp/little_black_triangle.png").unwrap();
     assert!(agigea::ppm::img_diff(
         "tests/std/tmp/little_black_triangle.png",
-        "images/little_black_triangle.png"
+        "tests/images/little_black_triangle.png"
     )
     .unwrap());
 }

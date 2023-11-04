@@ -38,7 +38,8 @@ fn rounded_rect() {
 
     ren.to_file("tests/std/tmp/rounded_rect.png").unwrap();
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/rounded_rect.png", "images/rounded_rect.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/rounded_rect.png", "tests/images/rounded_rect.png")
+            .unwrap(),
         true
     );
 }

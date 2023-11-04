@@ -97,7 +97,8 @@ fn lion_cw_aa() {
     ren.to_file("tests/std/tmp/lion_cw_aa.png").unwrap();
 
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/lion_cw_aa.png", "images/lion_cw_aa.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/lion_cw_aa.png", "tests/images/lion_cw_aa.png")
+            .unwrap(),
         true
     );
 }

@@ -28,7 +28,8 @@ fn t12_clip_box() {
     ren.to_file("tests/std/tmp/agg_test_12.png").unwrap();
 
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_12.png", "images/agg_test_12.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/agg_test_12.png", "tests/images/agg_test_12.png")
+            .unwrap(),
         true
     );
 }

@@ -29,7 +29,8 @@ fn t05_solar_spectrum_alpha() {
     mix.rgb.to_file("tests/std/tmp/agg_test_05.png").unwrap();
 
     assert!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_05.png", "images/agg_test_05.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/agg_test_05.png", "tests/images/agg_test_05.png")
+            .unwrap(),
         "{}",
         true
     );

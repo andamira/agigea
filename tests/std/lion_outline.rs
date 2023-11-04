@@ -105,7 +105,8 @@ fn lion_outline() {
 
     ren.to_file("tests/std/tmp/lion_outline.png").unwrap();
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/lion_outline.png", "images/lion_outline.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/lion_outline.png", "tests/images/lion_outline.png")
+            .unwrap(),
         true
     );
 }

@@ -19,5 +19,5 @@ fn t24_outline_basic_render() {
     ren_base.to_file("tests/std/tmp/primitive.png").unwrap();
 
     //assert!(agigea::ppm::img_diff("tests/std/tmp/primitive.png",
-    //                           "images/primitive.png").unwrap());
+    //                           "tests/images/primitive.png").unwrap());
 }

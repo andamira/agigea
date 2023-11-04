@@ -37,7 +37,10 @@ fn t22_inner_join() {
     text(&mut ras, &mut ren, 332.0, 90.0, "Jag");
 
     ren_base.to_file("tests/std/tmp/inner_join.png").unwrap();
-    assert!(agigea::ppm::img_diff("tests/std/tmp/inner_join.png", "images/inner_join.png").unwrap());
+    assert!(
+        agigea::ppm::img_diff("tests/std/tmp/inner_join.png", "tests/images/inner_join.png")
+            .unwrap()
+    );
 }
 
 fn text<T>(

@@ -103,8 +103,11 @@ fn lion_cw_aa_srgba() {
     ren.to_file("tests/std/tmp/lion_cw_aa_srgba.png").unwrap();
 
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/lion_cw_aa_srgba.png", "images/lion_cw_aa_srgba.png")
-            .unwrap(),
+        agigea::ppm::img_diff(
+            "tests/std/tmp/lion_cw_aa_srgba.png",
+            "tests/images/lion_cw_aa_srgba.png"
+        )
+        .unwrap(),
         true
     );
 }

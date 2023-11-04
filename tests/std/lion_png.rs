@@ -91,7 +91,7 @@ fn lion_png() {
 
     ren.to_file("tests/std/tmp/lion.png").unwrap();
 
-    if !agigea::ppm::img_diff("tests/std/tmp/lion.png", "images/lion.png").unwrap() {
+    if !agigea::ppm::img_diff("tests/std/tmp/lion.png", "tests/images/lion.png").unwrap() {
         panic!("PNG Images differ");
     }
 }

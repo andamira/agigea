@@ -31,7 +31,9 @@ fn t21_line_join() {
     text(&mut ras, &mut ren, 225.0, 90.0, "Bevel");
 
     ren_base.to_file("tests/std/tmp/line_join.png").unwrap();
-    assert!(agigea::ppm::img_diff("tests/std/tmp/line_join.png", "images/line_join.png").unwrap());
+    assert!(
+        agigea::ppm::img_diff("tests/std/tmp/line_join.png", "tests/images/line_join.png").unwrap()
+    );
 }
 
 fn text<T>(

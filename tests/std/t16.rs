@@ -42,6 +42,7 @@ fn t16_path_stroke_no_clip() {
     ren_base.to_file("tests/std/tmp/agg_test_16.png").unwrap();
 
     assert!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_16.png", "images/agg_test_16.png").unwrap()
+        agigea::ppm::img_diff("tests/std/tmp/agg_test_16.png", "tests/images/agg_test_16.png")
+            .unwrap()
     );
 }

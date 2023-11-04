@@ -19,5 +19,8 @@ fn t20_outline_render() {
     ras.add_path(&path);
     ren_base.to_file("tests/std/tmp/outline_aa.png").unwrap();
 
-    assert!(agigea::ppm::img_diff("tests/std/tmp/outline_aa.png", "images/outline_aa.png").unwrap());
+    assert!(
+        agigea::ppm::img_diff("tests/std/tmp/outline_aa.png", "tests/images/outline_aa.png")
+            .unwrap()
+    );
 }

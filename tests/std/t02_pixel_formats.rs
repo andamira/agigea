@@ -30,7 +30,8 @@ fn t02_pixel_formats() {
 
     pix.to_file("tests/std/tmp/agg_test_02.png").unwrap();
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_02.png", "images/agg_test_02.png").unwrap(),
+        agigea::ppm::img_diff("tests/std/tmp/agg_test_02.png", "tests/images/agg_test_02.png")
+            .unwrap(),
         true
     );
 }

@@ -248,7 +248,7 @@ fn rasterizers2_pre() {
         .unwrap();
     assert!(agigea::ppm::img_diff(
         "tests/std/tmp/rasterizers2_pre.png",
-        "images/rasterizers2_pre.png",
+        "tests/images/rasterizers2_pre.png",
     )
     .unwrap());
 }

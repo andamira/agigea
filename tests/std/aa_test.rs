@@ -8,8 +8,9 @@ mod assets {
             return None;
         }
         let mut images = cwd.clone();
-        let mut test_tmp = cwd.clone();
+        images.push("tests");
         images.push("images");
+        let mut test_tmp = cwd.clone();
         test_tmp.push("tests");
         test_tmp.push("std");
         test_tmp.push("tmp");
