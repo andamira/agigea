@@ -1,6 +1,7 @@
 //
 #![doc = include_str!("./Lib.md")]
 #![warn(clippy::all)]
+#![cfg_attr(not(any(feature = "std", feature = "no_std")), allow(unused))]
 // nightly, safety, environment
 #![cfg_attr(feature = "nightly", feature(doc_cfg))]
 #![cfg_attr(feature = "safe", forbid(unsafe_code))]
