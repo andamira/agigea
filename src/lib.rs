@@ -18,7 +18,10 @@ compile_error!("You can't enable `safe` and `unsafe*` features at the same time.
 #[cfg(all(feature = "std", feature = "freetype-rs"))]
 pub use freetype as ft;
 
-pub mod gallery;
+pub mod _gallery {
+    #![doc = include_str!("./Gallery.md")]
+}
+
 pub mod math;
 
 /* alloc */
@@ -281,7 +284,7 @@ pub trait Pixel {
     /// ```
     /// # #[cfg(feature = "std")]
     /// # {
-    /// use agg::{Source, Pixfmt, Rgb8, Rgba8, Pixel};
+    /// use agigea::{Source, Pixfmt, Rgb8, Rgba8, Pixel};
     ///
     /// let mut pix = Pixfmt::<Rgb8>::new(1,1);
     /// let black  = Rgba8::black();
@@ -477,7 +480,7 @@ pub(crate) trait DistanceInterpolator {
 /// All items are flat re-exported here.
 pub mod all {
     #[doc(inline)]
-    pub use super::{gallery::*, math::*, Color, Pixel};
+    pub use super::{math::*, Color, Pixel};
 
     #[doc(inline)]
     #[cfg(any(feature = "std", all(feature = "no_std", feature = "alloc")))]

@@ -2,19 +2,19 @@ mod aa_test;
 mod component_rendering_000;
 mod component_rendering_128;
 mod component_rendering_255;
+mod lion;
+mod lion_cw;
 mod lion_cw_aa;
 mod lion_cw_aa_srgba;
-mod lion_cw;
 mod lion_outline;
 mod lion_outline_width1;
 mod lion_png;
-mod lion;
-mod outline_aa;
 mod outline;
-mod rasterizers2_pre;
-mod rasterizers2;
-mod rasterizers_gamma;
+mod outline_aa;
 mod rasterizers;
+mod rasterizers2;
+mod rasterizers2_pre;
+mod rasterizers_gamma;
 mod rounded_rect;
 mod t00_example;
 mod t01_rendering_buffer;
@@ -28,6 +28,11 @@ mod t13;
 mod t14;
 mod t15;
 mod t16;
+
+// Tests depending on freetype
+#[cfg(feature = "freetype-rs")]
 mod t21_line_join;
+#[cfg(feature = "freetype-rs")]
 mod t22_inner_join;
-mod t23_font;
+// #[cfg(feature = "freetype-rs")]
+// mod t23_font; // FIXME

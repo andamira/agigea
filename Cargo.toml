@@ -1,15 +1,30 @@
 [package]
-name = "agg"
-version = "0.1.1"
-authors = ["Brian Savage <savage13@gmail.com>"]
-edition = "2021"
-repository = "https://github.com/savge13/agg"
-documentation = "https://docs.rs/agg"
-homepage = "https://github.com/savage13/agg"
-license = "BSD-2-Clause"
+name = "agigea"
 description = "High-quality 2D graphics engine based on Anti-grain Geometry"
+version = "0.1.1"
+edition = "2021"
+rust-version = "1.73.0"
+authors = [
+	"Maxim Shemanarev (McSeem)",
+	"Brian Savage <savage13@gmail.com>",
+	"jarris2268",
+	"José Luis Cruz <joseluis@andamira.net>",
+]
+repository = "https://github.com/andamira/agigea"
+license = "BSD-2-Clause"
+include = [
+	"/src/**/*.rs",
+	"/Cargo.toml",
+	"/LICENSE*",
+	"/README.md",
+	"/images",
+]
+categories = ["rendering::graphics-api", "no-std"]
+keywords = ["2d", "graphics"]
+publish = true
 
 [features]
+# for now, almost everything depends on alloc
 default = ["alloc"]
 
 std = ["alloc"]
@@ -20,7 +35,6 @@ unsafe = []
 nightly = []
 
 text = ["std", "freetype-rs"]
-
 docsrs = ["nightly", "std", "freetype-rs"]
 
 

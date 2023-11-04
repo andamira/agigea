@@ -1,25 +1,27 @@
 //! Path Stroking
 //!
-//! # Example
+//! # Examples
+//! ```
+//! use agigea::{LineCap, LineJoin, Path, RasterizerScanline, Stroke};
 //!
-//!     // Input Path
-//!     let mut path = agg::Path::new();
-//!     path.move_to(  0.0,   0.0);
-//!     path.line_to(100.0, 100.0);
-//!     path.line_to(200.0,  50.0);
+//! // Input Path
+//! let mut path = Path::new();
+//! path.move_to(  0.0,   0.0);
+//! path.line_to(100.0, 100.0);
+//! path.line_to(200.0,  50.0);
 //!
-//!     // Stroke
-//!     let mut stroke = agg::Stroke::new( path );
-//!     stroke.width(2.5);
-//!     stroke.line_cap(agg::LineCap::Square);
-//!     stroke.line_join(agg::LineJoin::Miter);
-//!     stroke.line_join(agg::LineJoin::Miter);
-//!     stroke.miter_limit(5.0);
+//! // Stroke
+//! let mut stroke = Stroke::new( path );
+//! stroke.width(2.5);
+//! stroke.line_cap(LineCap::Square);
+//! stroke.line_join(LineJoin::Miter);
+//! stroke.line_join(LineJoin::Miter);
+//! stroke.miter_limit(5.0);
 //!
-//!     // Draw
-//!     let mut ras = agg::RasterizerScanline::new();
-//!     ras.add_path(&stroke);
-//!
+//! // Draw
+//! let mut ras = RasterizerScanline::new();
+//! ras.add_path(&stroke);
+//! ```
 
 use crate::{
     paths::{cross, len, split, PathCommand, Vertex},

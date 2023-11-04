@@ -1,6 +1,6 @@
 Anti Grain Geometry - Rust implementation
 
-Originally derived from version 2.4 of [AGG](https://franko.github.io/antigrain/)
+Originally derived from version 2.4 of [AGG](https://agg.sourceforge.net/antigrain.com/)
 
 This crate implments the drawing / painting 2D algorithms developed in the Anti
 Grain Geometry C++ library. Quoting from the author in the documentation:
@@ -11,7 +11,6 @@ Grain Geometry C++ library. Quoting from the author in the documentation:
   **AGG** consists of a number of loosely coupled algorithms that can be used
   together or separately. All of them have well defined interfaces and absolute
   minimum of implicit or explicit dependencies.
-
 
 # Anti-Aliasing and Subpixel Accuracy
 
@@ -37,23 +36,26 @@ There are multiple ways to put / draw pixels including:
 ```
 # #[cfg(feature = "std")]
 # {
-use agg::Render;
+use agigea::{
+    Pixfmt, RasterizerScanline, Render, RenderingBase, RenderingScanlineAASolid,
+    Rgb8, Rgba8, render_scanlines,
+};
 
 // Create a blank image 10x10 pixels
-let pix = agg::Pixfmt::<agg::Rgb8>::new(100,100);
-let mut ren_base = agg::RenderingBase::new(pix);
-ren_base.clear(agg::Rgba8::white());
+let pix = Pixfmt::<Rgb8>::new(100,100);
+let mut ren_base = RenderingBase::new(pix);
+ren_base.clear(Rgba8::white());
 
 // Draw a polygon from (10,10) - (50,90) - (90,10)
-let mut ras = agg::RasterizerScanline::new();
+let mut ras = RasterizerScanline::new();
 ras.move_to(10.0, 10.0);
 ras.line_to(50.0, 90.0);
 ras.line_to(90.0, 10.0);
 
 // Render the line to the image
-let mut ren = agg::RenderingScanlineAASolid::with_base(&mut ren_base);
-ren.color(agg::Rgba8::black());
-agg::render_scanlines(&mut ras, &mut ren);
+let mut ren = RenderingScanlineAASolid::with_base(&mut ren_base);
+ren.color(Rgba8::black());
+render_scanlines(&mut ras, &mut ren);
 
 // Save the image to a file
 ren_base.to_file("little_black_triangle.png").unwrap();
@@ -65,17 +67,19 @@ ren_base.to_file("little_black_triangle.png").unwrap();
 ```
 # #[cfg(feature = "std")]
 # {
-use agg::{Pixfmt,Rgb8,Rgba8,RenderingBase,DrawOutline};
-use agg::{RendererOutlineAA,RasterizerOutlineAA};
+use agigea::{
+    Path, Pixfmt, Rgb8, Rgba8, DrawOutline, RasterizerOutlineAA,
+    RendererOutlineAA, RenderingBase,
+};
 let pix = Pixfmt::<Rgb8>::new(100,100);
-let mut ren_base = agg::RenderingBase::new(pix);
+let mut ren_base = RenderingBase::new(pix);
 ren_base.clear( Rgba8::new(255, 255, 255, 255) );
 
 let mut ren = RendererOutlineAA::with_base(&mut ren_base);
-ren.color(agg::Rgba8::new(102,77,26,255));
+ren.color(Rgba8::new(102,77,26,255));
 ren.width(3.0);
 
-let mut path = agg::Path::new();
+let mut path = Path::new();
 path.move_to(10.0, 10.0);
 path.line_to(50.0, 90.0);
 path.line_to(90.0, 10.0);
@@ -94,17 +98,19 @@ Render for primitive shapes: lines, rectangles, and ellipses; filled or
 ```
 # #[cfg(feature = "std")]
 # {
-use agg::{Pixfmt,Rgb8,Rgba8,RenderingBase,DrawOutline};
-use agg::{RendererPrimitives,RasterizerOutline};
+use agigea::{
+    Path, Pixfmt, Rgb8, Rgba8, RenderingBase, DrawOutline, RendererPrimitives,
+    RasterizerOutline,
+};
 
 let pix = Pixfmt::<Rgb8>::new(100,100);
-let mut ren_base = agg::RenderingBase::new(pix);
+let mut ren_base = RenderingBase::new(pix);
 ren_base.clear( Rgba8::new(255, 255, 255, 255) );
 
 let mut ren = RendererPrimitives::with_base(&mut ren_base);
-ren.line_color(agg::Rgba8::new(0,0,0,255));
+ren.line_color(Rgba8::new(0,0,0,255));
 
-let mut path = agg::Path::new();
+let mut path = Path::new();
 path.move_to(10.0, 10.0);
 path.line_to(50.0, 90.0);
 path.line_to(90.0, 10.0);
@@ -114,7 +120,6 @@ ras.add_path(&path);
 ren_base.to_file("primitive.png").unwrap();
 # }
 ```
-
 
 # Raw Pixel Manipulation
 

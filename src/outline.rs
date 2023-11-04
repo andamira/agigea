@@ -1,26 +1,29 @@
 //! Rendering Outline, not Anti-Aliased
 //!
-//!     use agg::{Pixfmt,Rgb8,Rgba8};
-//!     use agg::{RendererPrimitives,RasterizerOutline};
-//!     let pix = Pixfmt::<Rgb8>::new(100,100);
-//!     let mut ren_base = agg::RenderingBase::new(pix);
-//!     ren_base.clear( Rgba8::new(255, 255, 255, 255) );
+//! ```
+//! use agigea::{
+//!     Path, Pixfmt, Rgb8, Rgba8, RasterizerOutline, RenderingBase, RendererPrimitives,
+//! };
+//! let pix = Pixfmt::<Rgb8>::new(100,100);
+//! let mut ren_base = RenderingBase::new(pix);
+//! ren_base.clear(Rgba8::new(255, 255, 255, 255) );
 //!
-//!     let mut ren = RendererPrimitives::with_base(&mut ren_base);
-//!     ren.line_color(agg::Rgba8::new(0,0,0,255));
+//! let mut ren = RendererPrimitives::with_base(&mut ren_base);
+//! ren.line_color(Rgba8::new(0,0,0,255));
 //!
-//!     let mut path = agg::Path::new();
-//!     path.move_to(10.0, 10.0);
-//!     path.line_to(50.0, 90.0);
-//!     path.line_to(90.0, 10.0);
+//! let mut path = Path::new();
+//! path.move_to(10.0, 10.0);
+//! path.line_to(50.0, 90.0);
+//! path.line_to(90.0, 10.0);
 //!
-//!     let mut ras = RasterizerOutline::with_primitive(&mut ren);
-//!     ras.add_path(&path);
-//!     ren_base.to_file("primitive.png").unwrap();
+//! let mut ras = RasterizerOutline::with_primitive(&mut ren);
+//! ras.add_path(&path);
+//! ren_base.to_file("primitive.png").unwrap();
+//! ```
 //!
 //! The above code produces:
 //!
-//! ![Output](https://raw.githubusercontent.com/savage13/agg/master/images/primitive.png)
+//! ![Output](https://raw.githubusercontent.com/andamira/agigea/master/images/primitive.png)
 
 use crate::{
     base::RenderingBase, color::Rgba8, paths::PathCommand, render::BresehamInterpolator, Color,

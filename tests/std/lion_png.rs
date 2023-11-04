@@ -1,14 +1,14 @@
 use std::fs;
 
-use agg::Render;
+use agigea::Render;
 
-fn parse_lion() -> (Vec<agg::Path>, Vec<agg::Rgba8>) {
-    let txt = fs::read_to_string("tests/std/lion.txt").unwrap();
+fn parse_lion() -> (Vec<agigea::Path>, Vec<agigea::Rgba8>) {
+    let txt = fs::read_to_string("tests/std/assets/lion.txt").unwrap();
     let mut paths = vec![];
     let mut colors = vec![];
-    let mut path = agg::Path::new();
-    let mut color = agg::Rgba8::black();
-    let mut cmd = agg::PathCommand::Stop;
+    let mut path = agigea::Path::new();
+    let mut color = agigea::Rgba8::black();
+    let mut cmd = agigea::PathCommand::Stop;
 
     for line in txt.lines() {
         let v: Vec<_> = line.split_whitespace().collect();
@@ -23,20 +23,20 @@ fn parse_lion() -> (Vec<agg::Path>, Vec<agg::Rgba8>) {
                 paths.push(path);
                 colors.push(color);
             }
-            path = agg::Path::new();
-            color = agg::Rgba8::new(r, g, b, 255);
+            path = agigea::Path::new();
+            color = agigea::Rgba8::new(r, g, b, 255);
         } else {
             for val in v {
                 if val == "M" {
-                    cmd = agg::PathCommand::MoveTo;
+                    cmd = agigea::PathCommand::MoveTo;
                 } else if val == "L" {
-                    cmd = agg::PathCommand::LineTo;
+                    cmd = agigea::PathCommand::LineTo;
                 } else {
                     let pts: Vec<_> = val.split(",").map(|x| x.parse::<f64>().unwrap()).collect();
 
                     match cmd {
-                        agg::PathCommand::LineTo => path.line_to(pts[0], pts[1]),
-                        agg::PathCommand::MoveTo => {
+                        agigea::PathCommand::LineTo => path.line_to(pts[0], pts[1]),
+                        agigea::PathCommand::MoveTo => {
                             path.close_polygon();
                             path.move_to(pts[0], pts[1]);
                         }
@@ -60,38 +60,38 @@ fn lion_png() {
     let (w, h) = (400, 400);
 
     let (paths, colors) = parse_lion();
-    let pixf = agg::Pixfmt::<agg::Rgb8>::new(w, h);
-    let mut ren_base = agg::RenderingBase::new(pixf);
-    ren_base.clear(agg::Rgba8::new(255, 255, 255, 255));
-    let mut ren = agg::RenderingScanlineBinSolid::with_base(&mut ren_base);
-    ren.color(agg::Rgba8::new(255, 0, 0, 255));
+    let pixf = agigea::Pixfmt::<agigea::Rgb8>::new(w, h);
+    let mut ren_base = agigea::RenderingBase::new(pixf);
+    ren_base.clear(agigea::Rgba8::new(255, 255, 255, 255));
+    let mut ren = agigea::RenderingScanlineBinSolid::with_base(&mut ren_base);
+    ren.color(agigea::Rgba8::new(255, 0, 0, 255));
 
-    let mut ras = agg::RasterizerScanline::new();
+    let mut ras = agigea::RasterizerScanline::new();
 
     if paths.len() == 0 {
         return;
     }
     let p = paths[0].vertices[0];
-    let mut r = agg::Rectangle::new(p.x, p.y, p.x, p.y);
+    let mut r = agigea::Rectangle::new(p.x, p.y, p.x, p.y);
     for p in &paths {
-        if let Some(rp) = agg::bounding_rect(p) {
+        if let Some(rp) = agigea::bounding_rect(p) {
             r.expand_rect(&rp);
         }
     }
     let g_base_dx = (r.x2() - r.x1()) / 2.0;
     let g_base_dy = (r.y2() - r.y1()) / 2.0;
-    let mut mtx = agg::Transform::new();
+    let mut mtx = agigea::Transform::new();
 
     mtx.translate(-g_base_dx, -g_base_dy);
     mtx.translate((w / 2) as f64, (h / 2) as f64);
 
-    let t: Vec<_> = paths.into_iter().map(|p| agg::ConvTransform::new(p, mtx.clone())).collect();
+    let t: Vec<_> = paths.into_iter().map(|p| agigea::ConvTransform::new(p, mtx.clone())).collect();
 
-    agg::render_all_paths(&mut ras, &mut ren, &t, &colors);
+    agigea::render_all_paths(&mut ras, &mut ren, &t, &colors);
 
     ren.to_file("tests/std/tmp/lion.png").unwrap();
 
-    if !agg::ppm::img_diff("tests/std/tmp/lion.png", "images/lion.png").unwrap() {
+    if !agigea::ppm::img_diff("tests/std/tmp/lion.png", "images/lion.png").unwrap() {
         panic!("PNG Images differ");
     }
 }

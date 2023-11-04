@@ -1,6 +1,6 @@
 #![cfg_attr(not(feature = "freetype-rs"), allow(unused))]
 
-use agg::{DrawOutline, Pixel, Render, VertexSource};
+use agigea::{DrawOutline, Pixel, Render, VertexSource};
 
 pub struct Roundoff<T: VertexSource> {
     pub src: T,
@@ -19,11 +19,11 @@ impl<T> VertexSource for Roundoff<T>
 where
     T: VertexSource,
 {
-    fn xconvert(&self) -> Vec<agg::Vertex<f64>> {
+    fn xconvert(&self) -> Vec<agigea::Vertex<f64>> {
         self.src
             .xconvert()
             .into_iter()
-            .map(|v| agg::Vertex::new(v.x.floor(), v.y.floor(), v.cmd))
+            .map(|v| agigea::Vertex::new(v.x.floor(), v.y.floor(), v.cmd))
             .collect()
     }
 }
@@ -42,7 +42,7 @@ pub struct Spiral {
 }
 
 impl VertexSource for Spiral {
-    fn xconvert(&self) -> Vec<agg::Vertex<f64>> {
+    fn xconvert(&self) -> Vec<agigea::Vertex<f64>> {
         self.spin_spin_spin()
     }
 }
@@ -53,7 +53,7 @@ impl Spiral {
         let dr = step / 45.0;
         Self { x, y, r1, r2, step, start_angle, da, dr }
     }
-    pub fn spin_spin_spin(&self) -> Vec<agg::Vertex<f64>> {
+    pub fn spin_spin_spin(&self) -> Vec<agigea::Vertex<f64>> {
         let mut out = vec![];
         //let mut i = 0;
         let mut r = self.r1;
@@ -62,9 +62,9 @@ impl Spiral {
             let x = self.x + angle.cos() * r;
             let y = self.y + angle.sin() * r;
             if out.is_empty() {
-                out.push(agg::Vertex::move_to(x, y));
+                out.push(agigea::Vertex::move_to(x, y));
             } else {
-                out.push(agg::Vertex::line_to(x, y));
+                out.push(agigea::Vertex::line_to(x, y));
             }
             //i += 1;
             r += self.dr;
@@ -76,10 +76,10 @@ impl Spiral {
     }
 }
 
-fn chain() -> agg::Pixfmt<agg::Rgba32> {
+fn chain() -> agigea::Pixfmt<agigea::Rgba32> {
     let width = 16;
     let height = 7;
-    let mut pix = agg::Pixfmt::<agg::Rgba32>::new(width, height);
+    let mut pix = agigea::Pixfmt::<agigea::Rgba32>::new(width, height);
     let raw: [u32; 16 * 7] = [
         0x00ffffff, 0x00ffffff, 0x00ffffff, 0x00ffffff, 0xb4c29999, 0xff9a5757, 0xff9a5757,
         0xff9a5757, 0xff9a5757, 0xff9a5757, 0xff9a5757, 0xb4c29999, 0x00ffffff, 0x00ffffff,
@@ -105,7 +105,7 @@ fn chain() -> agg::Pixfmt<agg::Rgba32> {
         let g = ((v >> 8) & 0x00ff_u32) as u8;
         let b = ((v) & 0x00ff_u32) as u8;
         let a = (v >> 24) as u8;
-        let c = agg::Rgba32::from_trait(agg::Srgba8::new(r, g, b, a));
+        let c = agigea::Rgba32::from_trait(agigea::Srgba8::new(r, g, b, a));
         colors.push(c.premultiply());
     }
     let mut k = 0;
@@ -123,10 +123,10 @@ fn chain() -> agg::Pixfmt<agg::Rgba32> {
 fn rasterizers2_pre() {
     let (w, h) = (500, 450);
 
-    let pixf = agg::Pixfmt::<agg::Rgba8pre>::new(w, h);
-    let mut ren_base = agg::RenderingBase::new(pixf);
+    let pixf = agigea::Pixfmt::<agigea::Rgba8pre>::new(w, h);
+    let mut ren_base = agigea::RenderingBase::new(pixf);
 
-    ren_base.clear(agg::Rgba8::new(255, 255, 242, 255));
+    ren_base.clear(agigea::Rgba8::new(255, 255, 242, 255));
 
     let start_angle = 0.0;
     let line_width = 3.0;
@@ -140,14 +140,14 @@ fn rasterizers2_pre() {
         let y = (h - h / 4 + 20) as f64;
         let spiral = Spiral::new(x, y, r1, r2, step, start_angle);
 
-        let mut ras_aa = agg::RasterizerScanline::new();
-        let mut ren_aa = agg::RenderingScanlineAASolid::with_base(&mut ren_base);
-        let mut stroke = agg::Stroke::new(spiral);
+        let mut ras_aa = agigea::RasterizerScanline::new();
+        let mut ren_aa = agigea::RenderingScanlineAASolid::with_base(&mut ren_base);
+        let mut stroke = agigea::Stroke::new(spiral);
         stroke.width(line_width);
         //stroke.cap(round_cap);
-        ren_aa.color(agg::Rgba8::new(102, 77, 26, 255));
+        ren_aa.color(agigea::Rgba8::new(102, 77, 26, 255));
         ras_aa.add_path(&stroke);
-        agg::render_scanlines(&mut ras_aa, &mut ren_aa);
+        agigea::render_scanlines(&mut ras_aa, &mut ren_aa);
     }
     // Aliased Pixel Accuracy
     {
@@ -155,9 +155,9 @@ fn rasterizers2_pre() {
         let y = (h / 4 + 50) as f64;
         let spiral = Spiral::new(x, y, r1, r2, step, start_angle);
 
-        let mut ren_prim = agg::RendererPrimitives::with_base(&mut ren_base);
-        ren_prim.line_color(agg::Rgba8::new(102, 77, 26, 255));
-        let mut ras_al = agg::RasterizerOutline::with_primitive(&mut ren_prim);
+        let mut ren_prim = agigea::RendererPrimitives::with_base(&mut ren_base);
+        ren_prim.line_color(agigea::Rgba8::new(102, 77, 26, 255));
+        let mut ras_al = agigea::RasterizerOutline::with_primitive(&mut ren_prim);
         let trans = Roundoff::new(spiral);
         ras_al.add_path(&trans);
     }
@@ -168,9 +168,9 @@ fn rasterizers2_pre() {
         eprintln!("DDA SPIRAL: {} {} h {} h/4 {}", x, y, height, height / 4.0);
         let spiral = Spiral::new(x, y, r1, r2, step, start_angle);
 
-        let mut ren_prim = agg::RendererPrimitives::with_base(&mut ren_base);
-        ren_prim.line_color(agg::Rgba8::new(102, 77, 26, 255));
-        let mut ras_al = agg::RasterizerOutline::with_primitive(&mut ren_prim);
+        let mut ren_prim = agigea::RendererPrimitives::with_base(&mut ren_base);
+        ren_prim.line_color(agigea::Rgba8::new(102, 77, 26, 255));
+        let mut ras_al = agigea::RasterizerOutline::with_primitive(&mut ren_prim);
         ras_al.add_path(&spiral);
     }
     // Anti-Aliased Outline
@@ -179,10 +179,10 @@ fn rasterizers2_pre() {
         let y = (h - h / 4 + 20) as f64;
         let spiral = Spiral::new(x, y, r1, r2, step, start_angle);
 
-        let mut ren_oaa = agg::RendererOutlineAA::with_base(&mut ren_base);
-        ren_oaa.color(agg::Rgba8::new(102, 77, 26, 255));
+        let mut ren_oaa = agigea::RendererOutlineAA::with_base(&mut ren_base);
+        ren_oaa.color(agigea::Rgba8::new(102, 77, 26, 255));
         ren_oaa.width(3.0);
-        let mut ras_oaa = agg::RasterizerOutlineAA::with_renderer(&mut ren_oaa);
+        let mut ras_oaa = agigea::RasterizerOutlineAA::with_renderer(&mut ren_oaa);
         ras_oaa.round_cap(true);
         ras_oaa.add_path(&spiral);
     }
@@ -192,22 +192,22 @@ fn rasterizers2_pre() {
         let y = (h - h / 4 + 20) as f64;
         let spiral = Spiral::new(x, y, r1, r2, step, start_angle);
 
-        //let ren_oaa = agg::RendererOutlineAA::with_base(&mut ren_base);
+        //let ren_oaa = agigea::RendererOutlineAA::with_base(&mut ren_base);
 
-        let filter = agg::PatternFilterBilinear::new();
-        let mut pattern = agg::LineImagePatternPow2::new(filter);
+        let filter = agigea::PatternFilterBilinear::new();
+        let mut pattern = agigea::LineImagePatternPow2::new(filter);
         let ch = chain();
         pattern.create(&ch);
-        let mut ren_img = agg::RendererOutlineImg::with_base_and_pattern(&mut ren_base, pattern);
-        let mut ras_img = agg::RasterizerOutlineAA::with_renderer(&mut ren_img);
-        //ren_oaa.color(&agg::Rgba8::new(102,77,26,255));
+        let mut ren_img = agigea::RendererOutlineImg::with_base_and_pattern(&mut ren_base, pattern);
+        let mut ras_img = agigea::RasterizerOutlineAA::with_renderer(&mut ren_img);
+        //ren_oaa.color(&agigea::Rgba8::new(102,77,26,255));
         ras_img.round_cap(true);
         ras_img.add_path(&spiral);
     }
 
     {
-        let mut ras_aa = agg::RasterizerScanline::new();
-        let mut ren_aa = agg::RenderingScanlineAASolid::with_base(&mut ren_base);
+        let mut ras_aa = agigea::RasterizerScanline::new();
+        let mut ren_aa = agigea::RenderingScanlineAASolid::with_base(&mut ren_base);
         text(&mut ras_aa, &mut ren_aa, 50.0, 75.0, "Bresenham lines,\n\nregular accuracy");
         text(
             &mut ras_aa,
@@ -241,31 +241,36 @@ fn rasterizers2_pre() {
             out.push(data[i]);
         }
     }
-    ren_base.pixf.drop_alpha().to_file("tests/tmp/rasterizers2_pre.png").unwrap();
-    assert!(
-        agg::ppm::img_diff("tests/tmp/rasterizers2_pre.png", "images/rasterizers2_pre.png",)
-            .unwrap()
-    );
+    ren_base
+        .pixf
+        .drop_alpha()
+        .to_file("tests/std/tmp/rasterizers2_pre.png")
+        .unwrap();
+    assert!(agigea::ppm::img_diff(
+        "tests/std/tmp/rasterizers2_pre.png",
+        "images/rasterizers2_pre.png",
+    )
+    .unwrap());
 }
 
 #[cfg(feature = "freetype-rs")]
 fn text<T>(
-    ras: &mut agg::RasterizerScanline,
-    ren: &mut agg::RenderingScanlineAASolid<T>,
+    ras: &mut agigea::RasterizerScanline,
+    ren: &mut agigea::RenderingScanlineAASolid<T>,
     x: f64,
     y: f64,
     txt: &str,
 ) where
-    T: agg::Pixel,
+    T: agigea::Pixel,
 {
-    let mut t = agg::GsvText::new();
+    let mut t = agigea::GsvText::new();
     t.size(8.0, 0.0);
     t.text(txt);
     t.start_point(x, y);
     t.flip(true);
-    let mut stroke = agg::Stroke::new(t);
+    let mut stroke = agigea::Stroke::new(t);
     stroke.width(0.7);
     ras.add_path(&stroke);
-    ren.color(agg::Rgba8::new(0, 0, 0, 255));
-    agg::render_scanlines(ras, ren);
+    ren.color(agigea::Rgba8::new(0, 0, 0, 255));
+    agigea::render_scanlines(ras, ren);
 }

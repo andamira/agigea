@@ -1,35 +1,37 @@
 //! Rasterizer for Outlines with Anti-Aliasing
 //!
-//! # Example
+//! # Examples
+//! ```
+//! use agigea::{
+//!     Path, Pixfmt, Rgb8, Rgba8, DrawOutline, RendererOutlineAA, RenderingBase,
+//!     RasterizerOutlineAA
+//! };
 //!
-//!     use agg::{Pixfmt,Rgb8,Rgba8,DrawOutline};
-//!     use agg::{RendererOutlineAA,RasterizerOutlineAA};
+//! // Create Image and Rendering Base
+//! let pix = Pixfmt::<Rgb8>::new(100,100);
+//! let mut ren_base = RenderingBase::new(pix);
+//! ren_base.clear(Rgba8::new(255, 255, 255, 255) );
 //!
-//!     // Create Image and Rendering Base
-//!     let pix = Pixfmt::<Rgb8>::new(100,100);
-//!     let mut ren_base = agg::RenderingBase::new(pix);
-//!     ren_base.clear( Rgba8::new(255, 255, 255, 255) );
+//! // Create Outline Rendering, set color and width
+//! let mut ren = RendererOutlineAA::with_base(&mut ren_base);
+//! ren.color(Rgba8::new(0,0,0,255));
+//! ren.width(20.0);
 //!
-//!     // Create Outline Rendering, set color and width
-//!     let mut ren = RendererOutlineAA::with_base(&mut ren_base);
-//!     ren.color(agg::Rgba8::new(0,0,0,255));
-//!     ren.width(20.0);
+//! // Create a Path
+//! let mut path = Path::new();
+//! path.move_to(10.0, 10.0);
+//! path.line_to(50.0, 90.0);
+//! path.line_to(90.0, 10.0);
 //!
-//!     // Create a Path
-//!     let mut path = agg::Path::new();
-//!     path.move_to(10.0, 10.0);
-//!     path.line_to(50.0, 90.0);
-//!     path.line_to(90.0, 10.0);
-//!
-//!     // Create Outline Rasterizer and add path
-//!     let mut ras = RasterizerOutlineAA::with_renderer(&mut ren);
-//!     ras.round_cap(true);
-//!     ras.add_path(&path);
-//!     ren_base.to_file("outline_aa.png").unwrap();
-//!
+//! // Create Outline Rasterizer and add path
+//! let mut ras = RasterizerOutlineAA::with_renderer(&mut ren);
+//! ras.round_cap(true);
+//! ras.add_path(&path);
+//! ren_base.to_file("outline_aa.png").unwrap();
+//! ```
 //! The above code will produce:
 //!
-//! ![Output](https://raw.githubusercontent.com/savage13/agg/master/images/outline_aa.png)
+//! ![Output](https://raw.githubusercontent.com/andamira/agigea/master/images/outline_aa.png)
 //!
 
 use crate::{

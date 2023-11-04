@@ -46,26 +46,28 @@ where
     ///
     /// All color components are set to 255, including `alpha` if present
     ///
-    ///     use agg::{Source,Pixfmt,Rgb8,Rgba8};
+    /// # Examples
+    /// ```
+    /// use agigea::{Pixfmt, Rgb8, Rgba8, Source};
     ///
-    ///     // Pixfmt with Rgb8, not Alpha Component
-    ///     let mut pix = Pixfmt::<Rgb8>::new(2,2);
-    ///     pix.clear();
-    ///     let empty = Rgba8 { r:255, g:255, b:255, a:255};
-    ///     assert_eq!(pix.get((0,0)), empty);
-    ///     assert_eq!(pix.get((0,1)), empty);
-    ///     assert_eq!(pix.get((1,0)), empty);
-    ///     assert_eq!(pix.get((1,1)), empty);
+    /// // Pixfmt with Rgb8, not Alpha Component
+    /// let mut pix = Pixfmt::<Rgb8>::new(2,2);
+    /// pix.clear();
+    /// let empty = Rgba8 { r:255, g:255, b:255, a:255};
+    /// assert_eq!(pix.get((0,0)), empty);
+    /// assert_eq!(pix.get((0,1)), empty);
+    /// assert_eq!(pix.get((1,0)), empty);
+    /// assert_eq!(pix.get((1,1)), empty);
     ///
-    ///     // Pixfmt with Rgba8, including Alpha Component
-    ///     let mut pix = Pixfmt::<Rgb8>::new(2,2);
-    ///     pix.clear();
-    ///     let empty = Rgba8 { r:255, g:255, b:255, a:255};
-    ///     assert_eq!(pix.get((0,0)), empty);
-    ///     assert_eq!(pix.get((0,1)), empty);
-    ///     assert_eq!(pix.get((1,0)), empty);
-    ///     assert_eq!(pix.get((1,1)), empty);
-    ///
+    /// // Pixfmt with Rgba8, including Alpha Component
+    /// let mut pix = Pixfmt::<Rgb8>::new(2,2);
+    /// pix.clear();
+    /// let empty = Rgba8 { r:255, g:255, b:255, a:255};
+    /// assert_eq!(pix.get((0,0)), empty);
+    /// assert_eq!(pix.get((0,1)), empty);
+    /// assert_eq!(pix.get((1,0)), empty);
+    /// assert_eq!(pix.get((1,1)), empty);
+    /// ```
     pub fn clear(&mut self) {
         self.rbuf.clear();
     }
@@ -76,16 +78,18 @@ where
     ///
     /// Locations outside of the region are igorned
     ///
-    ///     use agg::{Source,Pixfmt,Rgba8};
+    /// # Examples
+    /// ```
+    /// use agigea::{Pixfmt, Rgba8, Source};
     ///
-    ///     let mut pix = Pixfmt::<Rgba8>::new(1,2);
-    ///     let black = Rgba8::black();
-    ///     pix.copy_pixel(0,1, black);
-    ///     assert_eq!(pix.get((0,0)), Rgba8{r:0, g:0, b:0, a:0});
-    ///     assert_eq!(pix.get((0,1)), black);
+    /// let mut pix = Pixfmt::<Rgba8>::new(1,2);
+    /// let black = Rgba8::black();
+    /// pix.copy_pixel(0,1, black);
+    /// assert_eq!(pix.get((0,0)), Rgba8{r:0, g:0, b:0, a:0});
+    /// assert_eq!(pix.get((0,1)), black);
     ///
-    ///     pix.copy_pixel(10,10, black); // Ignored, outside of range
-    ///
+    /// pix.copy_pixel(10,10, black); // Ignored, outside of range
+    /// ```
     /// [Color]: ../trait.Color.html
     pub fn copy_pixel<C: Color>(&mut self, x: usize, y: usize, c: C) {
         if x >= self.rbuf.width || y >= self.rbuf.height {
@@ -97,17 +101,19 @@ where
     ///
     /// Locations outside of the region are ignored
     ///
-    ///     use agg::{Source,Pixfmt,Rgb8,Rgba8};
+    /// # Examples
+    /// ```
+    /// use agigea::{Pixfmt, Rgb8, Rgba8, Source};
     ///
-    ///     let mut pix = Pixfmt::<Rgb8>::new(10,1);
-    ///     let black = Rgba8::black();
-    ///     pix.copy_hline(0,0,10, black);
-    ///     assert_eq!(pix.get((0,0)), black);
-    ///     assert_eq!(pix.get((1,0)), black);
-    ///     assert_eq!(pix.get((9,0)), black);
+    /// let mut pix = Pixfmt::<Rgb8>::new(10,1);
+    /// let black = Rgba8::black();
+    /// pix.copy_hline(0,0,10, black);
+    /// assert_eq!(pix.get((0,0)), black);
+    /// assert_eq!(pix.get((1,0)), black);
+    /// assert_eq!(pix.get((9,0)), black);
     ///
-    ///     pix.copy_hline(1,1,10, black); // Ignored, outside of range
-    ///
+    /// pix.copy_hline(1,1,10, black); // Ignored, outside of range
+    /// ```
     /// [Color]: ../trait.Color.html
     pub fn copy_hline<C: Color>(&mut self, x: usize, y: usize, n: usize, c: C) {
         if y >= self.rbuf.height || x >= self.rbuf.width || n == 0 {
@@ -126,18 +132,21 @@ where
     ///
     /// Locations outside of the region are ignored
     ///
-    ///     use agg::{Source,Pixfmt,Rgba8,Rgba32};
+    /// # Examples
+    /// ```
+    /// use agigea::{Pixfmt, Rgba8, Rgba32, Source};
     ///
-    ///     let mut pix = Pixfmt::<Rgba32>::new(1,10);
-    ///     let black  = Rgba32::new(0.,0.,0.,1.);
-    ///     pix.copy_vline(0,0,10, black);
+    /// let mut pix = Pixfmt::<Rgba32>::new(1,10);
+    /// let black  = Rgba32::new(0.,0.,0.,1.);
+    /// pix.copy_vline(0,0,10, black);
     ///
-    ///     let black8 = Rgba8::from_trait(black); // pix.get() returns Rgba8
-    ///     assert_eq!(pix.get((0,0)), black8);
-    ///     assert_eq!(pix.get((0,1)), black8);
-    ///     assert_eq!(pix.get((0,9)), black8);
+    /// let black8 = Rgba8::from_trait(black); // pix.get() returns Rgba8
+    /// assert_eq!(pix.get((0,0)), black8);
+    /// assert_eq!(pix.get((0,1)), black8);
+    /// assert_eq!(pix.get((0,9)), black8);
     ///
-    ///     pix.copy_vline(1,1,10, black); // Ignored, outside of range
+    /// pix.copy_vline(1,1,10, black); // Ignored, outside of range
+    /// ```
     ///
     /// [Color]: ../trait.Color.html
     /// [Rgba8]: ../Color/struct.Rgba8.html
