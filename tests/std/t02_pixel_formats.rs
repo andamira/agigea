@@ -1,10 +1,10 @@
-use agigea::Pixel;
+use agrega::Pixel;
 
-fn draw_black_frame(pix: &mut agigea::Pixfmt<agigea::Rgb8>) {
+fn draw_black_frame(pix: &mut agrega::Pixfmt<agrega::Rgb8>) {
     let w = pix.width();
     let h = pix.height();
     println!("w,h: {} {}", w, h);
-    let black = agigea::Rgb8::black();
+    let black = agrega::Rgb8::black();
     for i in 0..h {
         pix.copy_pixel(0, i, black);
         pix.copy_pixel(w - 1, i, black);
@@ -18,19 +18,19 @@ fn draw_black_frame(pix: &mut agigea::Pixfmt<agigea::Rgb8>) {
 
 #[test]
 fn t02_pixel_formats() {
-    //let rbuf = agigea::RenderingBuffer::new(320, 220, 3);
-    let mut pix = agigea::Pixfmt::<agigea::Rgb8>::new(320, 220);
+    //let rbuf = agrega::RenderingBuffer::new(320, 220, 3);
+    let mut pix = agrega::Pixfmt::<agrega::Rgb8>::new(320, 220);
     pix.clear();
     draw_black_frame(&mut pix);
 
     for i in 0..pix.height() / 2 {
-        let c = agigea::Rgb8::new(127, 200, 98);
+        let c = agrega::Rgb8::new(127, 200, 98);
         pix.copy_pixel(i, i, c);
     }
 
     pix.to_file("tests/std/tmp/agg_test_02.png").unwrap();
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_02.png", "tests/images/agg_test_02.png")
+        agrega::ppm::img_diff("tests/std/tmp/agg_test_02.png", "tests/images/agg_test_02.png")
             .unwrap(),
         true
     );

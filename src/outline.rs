@@ -1,7 +1,7 @@
 //! Rendering Outline, not Anti-Aliased
 //!
 //! ```
-//! use agigea::{
+//! use agrega::{
 //!     Path, Pixfmt, Rgb8, Rgba8, RasterizerOutline, RenderingBase, RendererPrimitives,
 //! };
 //! let pix = Pixfmt::<Rgb8>::new(100,100);
@@ -18,12 +18,13 @@
 //!
 //! let mut ras = RasterizerOutline::with_primitive(&mut ren);
 //! ras.add_path(&path);
+//! # #[cfg(feature = "std")]
 //! ren_base.to_file("tests/std/tmp/primitive.png").unwrap();
 //! ```
 //!
 //! The above code produces:
 //!
-//! ![Output](https://raw.githubusercontent.com/andamira/agigea/master/tests/images/primitive.png)
+//! ![Output](https://raw.githubusercontent.com/andamira/agrega/master/tests/images/primitive.png)
 
 use crate::{
     base::RenderingBase, color::Rgba8, paths::PathCommand, render::BresehamInterpolator, Color,

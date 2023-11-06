@@ -2,7 +2,7 @@
 //!
 //! # Examples
 //! ```
-//! use agigea::{
+//! use agrega::{
 //!     Path, Pixfmt, Rgb8, Rgba8, DrawOutline, RendererOutlineAA, RenderingBase,
 //!     RasterizerOutlineAA
 //! };
@@ -27,11 +27,12 @@
 //! let mut ras = RasterizerOutlineAA::with_renderer(&mut ren);
 //! ras.round_cap(true);
 //! ras.add_path(&path);
+//! # #[cfg(feature = "std")]
 //! ren_base.to_file("tests/std/tmp/outline_aa.png").unwrap();
 //! ```
 //! The above code will produce:
 //!
-//! ![Output](https://raw.githubusercontent.com/andamira/agigea/master/tests/images/outline_aa.png)
+//! ![Output](https://raw.githubusercontent.com/andamira/agrega/master/tests/images/outline_aa.png)
 //!
 
 use crate::{

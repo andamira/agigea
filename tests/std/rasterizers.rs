@@ -1,4 +1,4 @@
-use agigea::{
+use agrega::{
     render_scanlines, Path, Pixfmt, RasterizerScanline, Render, RenderingBase,
     RenderingScanlineAASolid, RenderingScanlineBinSolid, Rgb8, Rgba8,
 };
@@ -58,7 +58,7 @@ fn rasterizers() {
     }
     ren_base.to_file("tests/std/tmp/rasterizers.png").unwrap();
     assert!(
-        agigea::ppm::img_diff("tests/std/tmp/rasterizers.png", "tests/images/rasterizers.png")
+        agrega::ppm::img_diff("tests/std/tmp/rasterizers.png", "tests/images/rasterizers.png")
             .unwrap()
     );
 }

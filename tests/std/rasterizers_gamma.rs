@@ -1,7 +1,7 @@
-use agigea::Render;
+use agrega::Render;
 
-fn rgb64(r: f64, g: f64, b: f64, a: f64) -> agigea::Rgba8 {
-    agigea::Rgba8::new(
+fn rgb64(r: f64, g: f64, b: f64, a: f64) -> agrega::Rgba8 {
+    agrega::Rgba8::new(
         (r * 255.0).round() as u8,
         (g * 255.0).round() as u8,
         (b * 255.0).round() as u8,
@@ -16,19 +16,19 @@ fn rasterizers_gamma() {
     let m_x = [100. + 120., 369. + 120., 143. + 120.];
     let m_y = [60., 170., 310.0];
 
-    let pixf = agigea::Pixfmt::<agigea::Rgb8>::new(w, h);
-    let mut ren_base = agigea::RenderingBase::new(pixf);
-    ren_base.clear(agigea::Rgba8::new(255, 255, 255, 255));
+    let pixf = agrega::Pixfmt::<agrega::Rgb8>::new(w, h);
+    let mut ren_base = agrega::RenderingBase::new(pixf);
+    ren_base.clear(agrega::Rgba8::new(255, 255, 255, 255));
 
     let gamma = 1.0;
     let alpha = 0.5;
 
-    let mut ras = agigea::RasterizerScanline::new();
+    let mut ras = agrega::RasterizerScanline::new();
 
     // Anti-Aliased
     {
-        let mut ren_aa = agigea::RenderingScanlineAASolid::with_base(&mut ren_base);
-        let mut path = agigea::Path::new();
+        let mut ren_aa = agrega::RenderingScanlineAASolid::with_base(&mut ren_base);
+        let mut path = agrega::Path::new();
 
         path.move_to(m_x[0], m_y[0]);
         path.line_to(m_x[1], m_y[1]);
@@ -38,13 +38,13 @@ fn rasterizers_gamma() {
         ras.add_path(&path);
         // Power Function
         ras.gamma(|v| (v.powf(gamma * 2.0)));
-        agigea::render_scanlines(&mut ras, &mut ren_aa);
+        agrega::render_scanlines(&mut ras, &mut ren_aa);
     }
 
     // Aliased
     {
-        let mut ren_bin = agigea::RenderingScanlineBinSolid::with_base(&mut ren_base);
-        let mut path = agigea::Path::new();
+        let mut ren_bin = agrega::RenderingScanlineBinSolid::with_base(&mut ren_base);
+        let mut path = agrega::Path::new();
 
         path.move_to(m_x[0] - 200., m_y[0]);
         path.line_to(m_x[1] - 200., m_y[1]);
@@ -54,11 +54,11 @@ fn rasterizers_gamma() {
         ras.add_path(&path);
         // Threshold
         ras.gamma(|v| if v < gamma { 0.0 } else { 1.0 });
-        agigea::render_scanlines(&mut ras, &mut ren_bin);
+        agrega::render_scanlines(&mut ras, &mut ren_bin);
     }
     ren_base.to_file("tests/std/tmp/rasterizers_gamma.png").unwrap();
     assert_eq!(
-        agigea::ppm::img_diff(
+        agrega::ppm::img_diff(
             "tests/std/tmp/rasterizers_gamma.png",
             "tests/images/rasterizers_gamma.png"
         )

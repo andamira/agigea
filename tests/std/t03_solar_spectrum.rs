@@ -1,9 +1,9 @@
-use agigea::Pixel;
+use agrega::Pixel;
 
-fn draw_black_frame(pix: &mut agigea::Pixfmt<agigea::Rgb8>) {
+fn draw_black_frame(pix: &mut agrega::Pixfmt<agrega::Rgb8>) {
     let w = pix.width();
     let h = pix.height();
-    let black = agigea::Rgb8::black();
+    let black = agrega::Rgb8::black();
     pix.copy_hline(0, 0, w, black);
     pix.copy_hline(0, h - 1, w, black);
 
@@ -13,16 +13,16 @@ fn draw_black_frame(pix: &mut agigea::Pixfmt<agigea::Rgb8>) {
 
 #[test]
 fn t03_solar_specturm() {
-    let mut pix = agigea::Pixfmt::<agigea::Rgb8>::new(320, 200);
+    let mut pix = agrega::Pixfmt::<agrega::Rgb8>::new(320, 200);
     pix.clear();
     draw_black_frame(&mut pix);
 
     let w = pix.width();
     let h = pix.height();
-    let mut span = vec![agigea::Rgb8::white(); w];
+    let mut span = vec![agrega::Rgb8::white(); w];
 
     for i in 0..w {
-        span[i] = agigea::Rgb8::from_wavelength_gamma(380.0 + 400.0 * i as f64 / w as f64, 0.8);
+        span[i] = agrega::Rgb8::from_wavelength_gamma(380.0 + 400.0 * i as f64 / w as f64, 0.8);
     }
 
     for i in 0..h {
@@ -30,7 +30,7 @@ fn t03_solar_specturm() {
     }
     pix.to_file("tests/std/tmp/agg_test_03.png").unwrap();
     assert_eq!(
-        agigea::ppm::img_diff("tests/std/tmp/agg_test_03.png", "tests/images/agg_test_03.png")
+        agrega::ppm::img_diff("tests/std/tmp/agg_test_03.png", "tests/images/agg_test_03.png")
             .unwrap(),
         true
     );

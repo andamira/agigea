@@ -1,5 +1,5 @@
 [package]
-name = "agigea"
+name = "agrega"
 description = "High-quality 2D graphics engine based on Anti-grain Geometry"
 version = "0.1.1"
 edition = "2021"
@@ -10,7 +10,7 @@ authors = [
 	"jarris2268",
 	"José Luis Cruz <joseluis@andamira.net>",
 ]
-repository = "https://github.com/andamira/agigea"
+repository = "https://github.com/andamira/agrega"
 license = "BSD-2-Clause"
 include = [
 	"/src/**/*.rs",

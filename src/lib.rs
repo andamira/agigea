@@ -285,7 +285,7 @@ pub trait Pixel {
     /// ```
     /// # #[cfg(feature = "std")]
     /// # {
-    /// use agigea::{Source, Pixfmt, Rgb8, Rgba8, Pixel};
+    /// use agrega::{Source, Pixfmt, Rgb8, Rgba8, Pixel};
     ///
     /// let mut pix = Pixfmt::<Rgb8>::new(1,1);
     /// let black  = Rgba8::black();

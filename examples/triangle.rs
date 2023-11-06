@@ -1,4 +1,4 @@
-use agigea::{
+use agrega::{
     render_scanlines, Pixfmt, RasterizerScanline, Render, RenderingBase, RenderingScanlineAASolid,
     Rgb8, Rgba8,
 };

@@ -36,7 +36,7 @@ There are multiple ways to put / draw pixels including:
 ```
 # #[cfg(feature = "std")]
 # {
-use agigea::{
+use agrega::{
     Pixfmt, RasterizerScanline, Render, RenderingBase, RenderingScanlineAASolid,
     Rgb8, Rgba8, render_scanlines,
 };
@@ -67,7 +67,7 @@ ren_base.to_file("tests/std/tmp/little_black_triangle.png").unwrap();
 ```
 # #[cfg(feature = "std")]
 # {
-use agigea::{
+use agrega::{
     Path, Pixfmt, Rgb8, Rgba8, DrawOutline, RasterizerOutlineAA,
     RendererOutlineAA, RenderingBase,
 };
@@ -98,7 +98,7 @@ Render for primitive shapes: lines, rectangles, and ellipses; filled or
 ```
 # #[cfg(feature = "std")]
 # {
-use agigea::{
+use agrega::{
     Path, Pixfmt, Rgb8, Rgba8, RenderingBase, DrawOutline, RendererPrimitives,
     RasterizerOutline,
 };

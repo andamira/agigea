@@ -2,7 +2,7 @@
 //!
 //! # Examples
 //! ```
-//! use agigea::{LineCap, LineJoin, Path, RasterizerScanline, Stroke};
+//! use agrega::{LineCap, LineJoin, Path, RasterizerScanline, Stroke};
 //!
 //! // Input Path
 //! let mut path = Path::new();

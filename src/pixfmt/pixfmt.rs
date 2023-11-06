@@ -45,7 +45,7 @@ where
     ///
     /// # Examples
     /// ```
-    /// use agigea::{Pixfmt, Rgb8, Rgba8, Source};
+    /// use agrega::{Pixfmt, Rgb8, Rgba8, Source};
     ///
     /// // Pixfmt with Rgb8, not Alpha Component
     /// let mut pix = Pixfmt::<Rgb8>::new(2,2);
@@ -79,7 +79,7 @@ where
     ///
     /// # Examples
     /// ```
-    /// use agigea::{Pixfmt, Rgba8, Source};
+    /// use agrega::{Pixfmt, Rgba8, Source};
     ///
     /// let mut pix = Pixfmt::<Rgba8>::new(1,2);
     /// let black = Rgba8::black();
@@ -103,7 +103,7 @@ where
     ///
     /// # Examples
     /// ```
-    /// use agigea::{Pixfmt, Rgb8, Rgba8, Source};
+    /// use agrega::{Pixfmt, Rgb8, Rgba8, Source};
     ///
     /// let mut pix = Pixfmt::<Rgb8>::new(10,1);
     /// let black = Rgba8::black();
@@ -135,7 +135,7 @@ where
     ///
     /// # Examples
     /// ```
-    /// use agigea::{Pixfmt, Rgba8, Rgba32, Source};
+    /// use agrega::{Pixfmt, Rgba8, Rgba32, Source};
     ///
     /// let mut pix = Pixfmt::<Rgba32>::new(1,10);
     /// let black  = Rgba32::new(0.,0.,0.,1.);
